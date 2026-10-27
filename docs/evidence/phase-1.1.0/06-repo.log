@@ -1,0 +1,34 @@
+# date: 2026-10-27T16:11:40Z
+$ gh repo create VrianCao/mygo-explorer --public --source . --remote origin --push --description "..."
+https://github.com/VrianCao/mygo-explorer
+To https://github.com/VrianCao/mygo-explorer.git
+ * [new branch]      HEAD -> main
+branch 'main' set up to track 'origin/main'.
+
+$ gh repo edit VrianCao/mygo-explorer --add-topic go,native-ui,mygo,gallery
+topics-exit=0
+
+$ gh repo view --json visibility,description,url,repositoryTopics
+{"description":"Native desktop gallery built with MyGo: every UI element and control, side by side on macOS, Windows and Linux.","repositoryTopics":[{"name":"gallery"},{"name":"go"},{"name":"mygo"},{"name":"native-ui"}],"url":"https://github.com/VrianCao/mygo-explorer","visibility":"PUBLIC"}
+
+$ git remote -v
+origin	https://github.com/VrianCao/mygo-explorer.git (fetch)
+origin	https://github.com/VrianCao/mygo-explorer.git (push)
+
+$ curl -sS -o /dev/null -w 'anonymous HTML HTTP %{http_code}\n' https://github.com/VrianCao/mygo-explorer
+anonymous HTML HTTP 200
+
+$ curl -sS https://api.github.com/repos/VrianCao/mygo-explorer | jq '{full_name,private,visibility,license:.license.spdx_id,default_branch,topics}'
+{
+  "full_name": "VrianCao/mygo-explorer",
+  "private": false,
+  "visibility": "public",
+  "license": "MIT",
+  "default_branch": "main",
+  "topics": [
+    "gallery",
+    "go",
+    "mygo",
+    "native-ui"
+  ]
+}

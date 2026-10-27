@@ -108,8 +108,9 @@
 - [x] **1.1.5 仓库卫生文件**：`LICENSE`（MIT）、`NOTICE`/README credits（MyGo 及复用示例的 MIT 归属）、`.gitignore`（`/reference/`、`app/build/`、`app/.mygo/`、`*.p12`、`mygo-update.key`、`docs/evidence/**/*.tmp`、`.DS_Store`）。
   → 验收：`git check-ignore -v` 命中上述敏感/临时路径；无密钥文件被跟踪。
   → 证据：`docs/evidence/phase-1.1.0/05-hygiene.log`（8/8 路径命中忽略规则；`git ls-files` 无 build/.mygo/密钥/.DS_Store；LICENSE + NOTICE 存在）。
-- [ ] **1.1.6 创建公开仓库**：`gh repo create <owner>/mygo-explorer --public --source . --remote origin --push`；确认匿名可访问；设置 description/topics（`go`、`native-ui`、`mygo`、`gallery`）。
+- [x] **1.1.6 创建公开仓库**：`gh repo create <owner>/mygo-explorer --public --source . --remote origin --push`；确认匿名可访问；设置 description/topics（`go`、`native-ui`、`mygo`、`gallery`）。
   → 验收：`gh repo view --json visibility -q .visibility` 输出 `PUBLIC`；无痕浏览器可打开。
+  → 证据：`docs/evidence/phase-1.1.0/06-repo.log`（visibility=PUBLIC、anonymous HTML HTTP 200、匿名 API visibility=public/license=MIT、topics=go/native-ui/mygo/gallery、origin 已设）。仓库 <https://github.com/VrianCao/mygo-explorer>。
 - [ ] **1.1.7 CI 骨架**：`.github/workflows/ci.yml`，矩阵 `macos-latest / windows-latest / ubuntu-latest`；步骤：checkout → `actions/setup-go`（读 `app/go.mod`）→ `cd app && go test ./...` → `go tool mygo vet .` → `go tool mygo build`（各 OS 构建本机平台）→ 上传日志/产物。
   → 验收：首次 Actions run 三个 job 全绿（附 run URL）。
 - [ ] **1.1.8 本地校验脚本**：`app/scripts/check.sh`（gofmt 检查 + `go test ./...` + `go tool mygo vet .` + `go build ./...` + `go tool mygo build`），输出 PASS/FAIL 汇总。
