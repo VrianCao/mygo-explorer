@@ -102,8 +102,9 @@
 - [x] **1.1.3 锁定依赖**：确认 `app/go.mod` 含 `go 1.27.3`、`tool github.com/egoist/mygo/cmd/mygo`、`require github.com/egoist/mygo v0.7.1`；执行 `go mod tidy` 后 `git diff --exit-code` 无变化。
   → 验收：`go list -m github.com/egoist/mygo` = `github.com/egoist/mygo v0.7.1`；输出存档。
   → 证据：`docs/evidence/phase-1.1.0/03-pin.log`（tidy 后 `git diff` 空；`go list -m` = v0.7.1；`go tool mygo version` = 0.7.1；`GOVERSION` = go1.27.3）。
-- [ ] **1.1.4 配置 mygo.json**：`name: "MyGo Explorer"`、默认 identifier、`version: "0.1.0"`（发布时改 1.0.0）、`out: "build"`；`go tool mygo build` 产出 `build/darwin-arm64/MyGo Explorer.app`。
+- [x] **1.1.4 配置 mygo.json**：`name: "MyGo Explorer"`、默认 identifier、`version: "0.1.0"`（发布时改 1.0.0）、`out: "build"`；`go tool mygo build` 产出 `build/darwin-arm64/MyGo Explorer.app`。
   → 验收：产物路径与名称正确；`plutil -p ".../Info.plist"` 的 CFBundleName/Identifier 正确。
+  → 证据：`docs/evidence/phase-1.1.0/04-build.log`（5.9s 构建；`.app` 9.1MB + dmg 3.0MB；CFBundleName=`MyGo Explorer`、CFBundleIdentifier=`dev.mygoexplorer.app`、adhoc 签名）。
 - [ ] **1.1.5 仓库卫生文件**：`LICENSE`（MIT）、`NOTICE`/README credits（MyGo 及复用示例的 MIT 归属）、`.gitignore`（`/reference/`、`app/build/`、`app/.mygo/`、`*.p12`、`mygo-update.key`、`docs/evidence/**/*.tmp`、`.DS_Store`）。
   → 验收：`git check-ignore -v` 命中上述敏感/临时路径；无密钥文件被跟踪。
 - [ ] **1.1.6 创建公开仓库**：`gh repo create <owner>/mygo-explorer --public --source . --remote origin --push`；确认匿名可访问；设置 description/topics（`go`、`native-ui`、`mygo`、`gallery`）。

@@ -1,0 +1,54 @@
+# date: 2026-10-27T16:10:21Z
+$ cat mygo.json
+{
+  "name": "MyGo Explorer",
+  "identifier": "dev.mygoexplorer.app",
+  "version": "0.1.0",
+  "out": "build"
+}
+
+$ go tool mygo build
+
+  MyGo!!!!! v0.7.1  build
+
+  ○ Compiling darwin/arm64
+  ✓ Compiled darwin/arm64  621ms
+  ○ Signing MyGo Explorer.app
+  ✓ Signed MyGo Explorer.app  24ms
+  ○ Creating mygo-explorer-0.1.0-arm64.dmg
+  ✓ Created mygo-explorer-0.1.0-arm64.dmg  5.0s
+
+  ✓ Built MyGo Explorer 0.1.0 in 5.9s
+
+    build/darwin-arm64/
+      MyGo Explorer.app                 9.1 MB
+      mygo-explorer-0.1.0-arm64.dmg     3.0 MB
+
+real 5.99
+user 2.58
+sys 1.24
+exit=0
+
+# artifact checks
+$ ls -la build/darwin-arm64
+total 6192
+drwxr-xr-x@ 4 user  staff      128 Oct 28 00:10 .
+drwxr-xr-x@ 3 user  staff       96 Oct 28 00:10 ..
+drwxr-xr-x@ 3 user  staff       96 Oct 28 00:10 MyGo Explorer.app
+-rw-r--r--@ 1 user  staff  3168111 Oct 28 00:10 mygo-explorer-0.1.0-arm64.dmg
+
+$ plutil -p "build/darwin-arm64/MyGo Explorer.app/Contents/Info.plist" | grep -E 'CFBundle(Name|Identifier|DisplayName|ShortVersionString|Executable)'
+  "CFBundleDisplayName" => "MyGo Explorer"
+  "CFBundleExecutable" => "MyGo Explorer"
+  "CFBundleIdentifier" => "dev.mygoexplorer.app"
+  "CFBundleName" => "MyGo Explorer"
+  "CFBundleShortVersionString" => "0.1.0"
+
+$ file "build/darwin-arm64/MyGo Explorer.app/Contents/MacOS/MyGo Explorer"
+build/darwin-arm64/MyGo Explorer.app/Contents/MacOS/MyGo Explorer: Mach-O 64-bit executable arm64
+
+$ codesign -dv "build/darwin-arm64/MyGo Explorer.app" 2>&1 | head -4
+Executable=~/Code_New/MyGoExplorer/app/build/darwin-arm64/MyGo Explorer.app/Contents/MacOS/MyGo Explorer
+Identifier=dev.mygoexplorer.app
+Format=app bundle with Mach-O thin (arm64)
+CodeDirectory v=20400 size=18253 flags=0x2(adhoc) hashes=564+3 location=embedded

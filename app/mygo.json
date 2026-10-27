@@ -1,6 +1,6 @@
 {
   "name": "MyGo Explorer",
-  "identifier": "com.example.mygoexplorer",
+  "identifier": "dev.mygoexplorer.app",
   "version": "0.1.0",
   "out": "build"
 }
