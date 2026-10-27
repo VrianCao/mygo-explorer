@@ -1,7 +1,7 @@
-# Phase 1.1.0 acceptance verification (final re-created public repo, 2026-10-28)
-# date: 2026-10-27T17:54:53Z
-# HEAD at run time: 43a4c17 docs(evidence): point evidence at the final re-created repository and CI run
-# note: earlier repository instances and CI runs were deleted during the privacy purge.
+# Phase 1.1.0 acceptance verification (final published repository, 2026-10-28)
+# date: 2026-10-27T18:01:44Z
+# HEAD at run time: 11cf92f docs(evidence): record the final re-created repository and green CI run
+# generated on the final scrubbed history; owner columns are shown as 'user'
 
 ## AC1: app module builds, runs, tests pass
 $ cd app && ./scripts/check.sh
@@ -13,15 +13,15 @@ PASS  gofmt -l .
 
 ==> go test ./...
 ok  	github.com/VrianCao/mygo-explorer/app	(cached)
-go test ./... took 1s
+go test ./... took 2s
 PASS  go test ./...
 
 ==> go tool mygo vet .
-go tool mygo vet . took 0s
+go tool mygo vet . took 4s
 PASS  go tool mygo vet .
 
 ==> go build ./...
-go build ./... took 0s
+go build ./... took 1s
 PASS  go build ./...
 
 ==> go tool mygo build
@@ -29,19 +29,19 @@ PASS  go build ./...
   MyGo!!!!! v0.7.1  build
 
   ○ Compiling darwin/arm64
-  ✓ Compiled darwin/arm64  249ms
+  ✓ Compiled darwin/arm64  1.6s
   ○ Signing MyGo Explorer.app
-  ✓ Signed MyGo Explorer.app  20ms
+  ✓ Signed MyGo Explorer.app  143ms
   ○ Creating mygo-explorer-0.1.0-arm64.dmg
-  ✓ Created mygo-explorer-0.1.0-arm64.dmg  4.6s
+  ✓ Created mygo-explorer-0.1.0-arm64.dmg  5.7s
 
-  ✓ Built MyGo Explorer 0.1.0 in 5.1s
+  ✓ Built MyGo Explorer 0.1.0 in 8.1s
 
     build/darwin-arm64/
       MyGo Explorer.app                 9.1 MB
       mygo-explorer-0.1.0-arm64.dmg     3.0 MB
 
-go tool mygo build took 6s
+go tool mygo build took 8s
 PASS  go tool mygo build
 
 ==> Summary
@@ -62,22 +62,22 @@ $ curl anonymous https://github.com/VrianCao/mygo-explorer
 HTTP 200
 
 $ git log --oneline | wc -l
-      23
+      25
 $ git log --oneline -1
-43a4c17 docs(evidence): point evidence at the final re-created repository and CI run
+11cf92f docs(evidence): record the final re-created repository and green CI run
 
 $ gh run list --limit 5 --json databaseId,headSha,status,conclusion,url
-[{"conclusion":"success","databaseId":40554262094,"headSha":"1d457b4589c9d90ba810852cc07b190707694c3c","status":"completed","url":"https://github.com/VrianCao/mygo-explorer/actions/runs/40554262094"},{"conclusion":"cancelled","databaseId":40554233450,"headSha":"1d457b4589c9d90ba810852cc07b190707694c3c","status":"completed","url":"https://github.com/VrianCao/mygo-explorer/actions/runs/40554233450"}]
+[{"conclusion":"success","databaseId":40555595420,"headSha":"f7323ffea9f670b1f8119846b8a5514a916ea399","status":"completed","url":"https://github.com/VrianCao/mygo-explorer/actions/runs/40555595420"}]
 
-$ gh run view 40554262094 --json conclusion,jobs
+$ gh run view 40555595420 --json conclusion,jobs
 success
-Windows: success
-macOS: success
 Linux: success
+macOS: success
+Windows: success
 
 $ git ls-remote origin
-43a4c17fafad713be2413f3f3d3d5c2223e1a20f	HEAD
-43a4c17fafad713be2413f3f3d3d5c2223e1a20f	refs/heads/main
+11cf92fda96399c871410ad80a90c59fede868a4	HEAD
+11cf92fda96399c871410ad80a90c59fede868a4	refs/heads/main
 8e5bb0590023a3c99e004cd2291a5d42108e63ee	refs/tags/v0.1.0
 8707ea17c86460e8cbc39ca7b7a67c955d1f382b	refs/tags/v0.1.0^{}
 
@@ -118,14 +118,14 @@ smoke.png
 test.txt
 vet.txt
 
-## privacy checks (final repository)
+## privacy checks (final published repository)
 personal e-mail in any commit (git log -S): 0
 home-path literal in any commit (git log -S): 0
 account-name word in any commit (git log -S): 0
 personal e-mail in HEAD tree (git grep): 0
 home-path literal in HEAD tree (git grep): 0
-tracked files >1 MB: research/docs/llms-full.txt   # research/docs/llms-full.txt (Phase 0 offline docs corpus, justified)
-AGENTS.md tracked? no (ignored: yes)
+tracked files >1 MB: research/docs/llms-full.txt 
+AGENTS.md tracked: no (gitignored: yes)
 
 $ git status --short   # working tree at run time (empty = clean)
 [end of git status]
