@@ -22,6 +22,7 @@
 - 证据刷新时间：2026-10-28（Asia/Shanghai）
 - 历史重写：2026-10-28 经用户选择方案 A，移除公开历史中的个人邮箱并将 `/Users/<user>` 归一化为 `~/`；
   `main` 与 `v0.1.0` 已强制更新/重签，旧 SHA 不可达（详见 notes.md §5；改动仅 17 文件/64 行）
+- 重写后 CI run：<https://github.com/VrianCao/mygo-explorer/actions/runs/40546689059>（三平台全绿，`e671c3f`）
 
 ### 用户需执行（约 5 分钟）
 

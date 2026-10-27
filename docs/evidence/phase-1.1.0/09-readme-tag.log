@@ -51,3 +51,23 @@ $ git ls-remote --tags origin v0.1.0   # pushed tag object
 # NOTE（2026-10-28 历史重写）：上面的 tag 记录产生于历史重写之前（fa89e84 / tag object
 # 3eb789b）。重写并重签后：v0.1.0 指向 commit 8f8ad51，tag 为新的 SSH 签名 annotated tag，
 # 旧 SHA 不可达。重写后的 tag 验证见文件末尾追加记录。
+
+# ---
+# 2026-10-28 历史重写后的重签 tag 与公开 clone 校验
+# date: 2026-10-27T17:03:34Z
+$ git rev-parse v0.1.0   # annotated tag object
+d2fd15d67a0585a4fed37510b68bf42e66bc47de
+$ git rev-list -n1 v0.1.0   # commit it points at
+8f8ad51161b9d2ee6f709061eda4fd9138dd5901
+$ git cat-file -p v0.1.0 | grep -c 'BEGIN SSH SIGNATURE'
+1
+$ git ls-remote --tags origin
+d2fd15d67a0585a4fed37510b68bf42e66bc47de	refs/tags/v0.1.0
+8f8ad51161b9d2ee6f709061eda4fd9138dd5901	refs/tags/v0.1.0^{}
+
+# anonymous full clone of https://github.com/VrianCao/mygo-explorer
+commits: 16
+email in history (git log -S): 0
+/Users/<user> in history (git log -S): 0
+email in HEAD tree: 0
+ENVIRONMENT.md line 29: | Signing identities | 1 codesigning identity: "Apple Development: [redacted]" — **no Developer ID Application** | `security find-identity -v -p codesigning` (see §12) |

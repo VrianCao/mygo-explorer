@@ -107,7 +107,9 @@
     随后 force-push `main`，重建并重签名 `v0.1.0` tag。旧 SHA 与本文件此前的 SHA 引用已失效，
     上面已更新为重写后的 SHA；`07-ci.log` / `final-verify.log` 中记录的旧 CI run headSha 属于
     重写前历史，仅作历史记录（run URL 仍可访问）。改动范围经逐行比对确认：17 个文件 / 64 行，
-    全部只涉及上述两类字符串。
+    全部只涉及上述两类字符串。完成后的核验：force-push `main`（`e671c3f`）、重签 tag（对象
+    `d2fd15d` → commit `8f8ad51`）；匿名完整 clone 校验 `git log -S` 对邮箱与 `/Users/<user>` 均为 0；
+    重写后 CI run <https://github.com/VrianCao/mygo-explorer/actions/runs/40546689059> 三平台全绿。
 
 ## 6. GATE-1 用户复核步骤（约 5 分钟）
 

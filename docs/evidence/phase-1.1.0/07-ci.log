@@ -141,3 +141,17 @@ mygo-explorer-Windows-X64/windows-amd64/mygo-explorer-setup-0.1.0-amd64.exe
 -- mygo-explorer-Windows-X64
    go-version: go version go1.27.3 windows/amd64
    mygo-version: mygo 0.7.1
+
+# ---
+# 历史重写后的验证 run（2026-10-28，main 已 force-push 到 e671c3f）
+# date: 2026-10-27T17:03:31Z
+$ gh run view 40546689059 --json url,conclusion,headSha,jobs
+url=https://github.com/VrianCao/mygo-explorer/actions/runs/40546689059 conclusion=success headSha=e671c3f
+JOB Windows: success 2026-10-27T17:02:01Z → 2026-10-27T17:02:53Z
+JOB macOS: success 2026-10-27T17:02:07Z → 2026-10-27T17:02:45Z
+JOB Linux: success 2026-10-27T17:02:01Z → 2026-10-27T17:03:03Z
+
+$ gh api .../runs/40546689059/artifacts
+mygo-explorer-Windows-X64 7688524 bytes
+mygo-explorer-macOS-ARM64 7357693 bytes
+mygo-explorer-Linux-X64 12672003 bytes
