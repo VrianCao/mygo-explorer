@@ -99,8 +99,9 @@
 - [x] **1.1.2 初始化 app 模块**：在 workspace 下执行 `mygo init -template native app -name "MyGo Explorer" -module <module>`；确认生成 `main.go`、`main_test.go`、`go.mod`、`mygo.json`、`resources/icon.png`、`.agents/skills/mygo-maintenance/`、`.gitignore`。
   → 验收：文件齐全；`cd app && go version` 输出 `go1.27.3`。
   → 证据：`docs/evidence/phase-1.1.0/01-init.log`、`02-scaffold.log`（`go1.27.3` + 文件清单 + `go test` ok）。注：CLI 的 flag 解析要求 flags 在目录前，实际命令为 `mygo init -template native -name "MyGo Explorer" -module github.com/VrianCao/mygo-explorer/app app`。
-- [ ] **1.1.3 锁定依赖**：确认 `app/go.mod` 含 `go 1.27.3`、`tool github.com/egoist/mygo/cmd/mygo`、`require github.com/egoist/mygo v0.7.1`；执行 `go mod tidy` 后 `git diff --exit-code` 无变化。
+- [x] **1.1.3 锁定依赖**：确认 `app/go.mod` 含 `go 1.27.3`、`tool github.com/egoist/mygo/cmd/mygo`、`require github.com/egoist/mygo v0.7.1`；执行 `go mod tidy` 后 `git diff --exit-code` 无变化。
   → 验收：`go list -m github.com/egoist/mygo` = `github.com/egoist/mygo v0.7.1`；输出存档。
+  → 证据：`docs/evidence/phase-1.1.0/03-pin.log`（tidy 后 `git diff` 空；`go list -m` = v0.7.1；`go tool mygo version` = 0.7.1；`GOVERSION` = go1.27.3）。
 - [ ] **1.1.4 配置 mygo.json**：`name: "MyGo Explorer"`、默认 identifier、`version: "0.1.0"`（发布时改 1.0.0）、`out: "build"`；`go tool mygo build` 产出 `build/darwin-arm64/MyGo Explorer.app`。
   → 验收：产物路径与名称正确；`plutil -p ".../Info.plist"` 的 CFBundleName/Identifier 正确。
 - [ ] **1.1.5 仓库卫生文件**：`LICENSE`（MIT）、`NOTICE`/README credits（MyGo 及复用示例的 MIT 归属）、`.gitignore`（`/reference/`、`app/build/`、`app/.mygo/`、`*.p12`、`mygo-update.key`、`docs/evidence/**/*.tmp`、`.DS_Store`）。
