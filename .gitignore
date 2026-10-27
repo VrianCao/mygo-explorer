@@ -18,9 +18,21 @@ mygo_windows_*.syso
 # Signing material and secrets — never commit these
 *.p12
 mygo-update.key
+.env
+.env.local
 
 # Temporary evidence artifacts
 docs/evidence/**/*.tmp
+
+# Large full-screen evidence captures stay local: privacy (other windows) and
+# size. Only window crops are tracked. See AGENTS.md.
+/research/prep/evidence/preflight-gui.png
+/research/prep/evidence/probe-window-screencapture.png
+/research/prep/evidence/probe-dev-hotreload-screen.png
+
+# Local agent instructions: privacy/tracking rules for this machine only,
+# never published (see AGENTS.md itself).
+/AGENTS.md
 
 # OS noise
 .DS_Store

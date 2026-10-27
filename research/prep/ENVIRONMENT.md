@@ -387,12 +387,16 @@ close afterwards, no background processes.** Final state verified:
 | `23-preflight-run.log` | preflight default run (19 PASS) |
 | `24-preflight-gui-run.log` | preflight `--gui` (22 PASS, Metal + screenshot) |
 | `25-toolchain-appearance-api.log` | GOROOT/toolchain path, Dark appearance, Tester APIs |
-| `probe-window-screencapture(-cropped).png` | real window (pristine probe app) |
-| `probe-dev-hotreload(-cropped).png` | window after hot reload (`HOT RELOADED` text) |
+| `probe-window-screencapture(-cropped).png` | real window (pristine probe app)；全屏原图本地保留、不入库（仅 `-cropped` 入库） |
+| `probe-dev-hotreload(-cropped).png` | window after hot reload (`HOT RELOADED` text)；全屏原图本地保留、不入库 |
 | `probe-capturepage.png` | in-app `CapturePage()` output (960×656) |
-| `preflight-gui.png` | preflight `--gui` screenshot |
+| `preflight-gui.png` | preflight `--gui` 全屏截图；体积大且含桌面内容，本地保留、不入库 |
 | `probe-render-*.png`, `probe-tester-*.png` | headless snapshots incl. light/dark themes |
 | `preflight-last.log` | last green preflight summary |
+
+> **2026-10-28 隐私/体积整理**：三张 >6 MB 的全屏截图（`preflight-gui.png`、
+> `probe-window-screencapture.png`、`probe-dev-hotreload-screen.png`）已从仓库与历史中移除，
+> 仅保留窗口裁剪图；原始文件只在本机保留（见根 `.gitignore` 与 `AGENTS.md`）。
 
 ## 14. Bottom line for the showcase app
 

@@ -88,18 +88,16 @@
 
 ## 5. 遗留问题 / 风险
 
-- **公开仓库隐私（已处理）**：阶段 0 研究产物曾把本机 Xcode 身份邮箱
-  （`research/prep/ENVIRONMENT.md` 的 `Apple Development: …`）与大量 `/Users/<user>/...` 绝对路径
-  带入公开仓库（自初始 commit 起公开）。经用户选择方案 A，2026-10-28 用 `git filter-branch` 重写
-  全部历史：邮箱替换为 `[redacted]`、家目录路径归一化为 `~/`，force-push `main`，并重建/重签
-  `v0.1.0` tag。已核验新历史每个 commit 都不再含该邮箱或 `/Users/<user>`；逐行比对确认改动仅涉及
-  17 个文件的 64 行，全部属于上述两类字符串。残留风险：GitHub 可能短期缓存不可达对象（必要时
-  可联系 GitHub Support 清理），搜索引擎缓存可能滞后；重写前的 SHA 在**当前分支历史中不可达**，
-  旧 CI run 仅作历史记录。**补充实测（2026-10-28）**：force-push 后 GitHub 仍会按旧 SHA 提供
-  旧 commit/blob 的匿名读取（不可达对象有保留期，具体旧 SHA 不在此记录以免提供指向）；因此
-  “公开历史已干净”成立，但“GitHub 侧彻底不可读”需 Support 清理或删除并重建仓库才能做到。
-  **最终按用户选择执行了删除+同名重建**：新仓库仅含已清洗历史；旧 SHA（API 422 / raw 404）与旧
-  Actions run（404）均不可达。残留：搜索引擎/第三方缓存可能滞后；GitHub 内部备份不受本仓库控制。
+- **公开仓库隐私（已处理，多轮）**：阶段 0 研究产物曾把本机 Xcode 身份邮箱
+  （`research/prep/ENVIRONMENT.md` 的 `Apple Development: …`）、`/Users/<user>/...` 绝对路径、
+  证据日志 `ls -la` 的账号列以及三张 >6 MB 全屏截图带入公开仓库。经用户决策，2026-10-28 完成：
+  ① 多轮 `git filter-branch` 重写历史（邮箱 → `[redacted]`；家目录 → `~/`；账号列 → `user`；
+  三张大截图从历史移除）；② 重签 `v0.1.0`；③ 因 GitHub 保留不可达对象，**删除并同名重建**公开仓库，
+  仅推入已清洗历史。验证：新历史 `git log -S` 对邮箱/家目录/账号名均为 0；无 >1 MB 图片入库；
+  匿名 raw 与 clone 均干净；旧 commit API 422、旧 raw 404、旧 run URL 404。残留：搜索引擎/第三方
+  缓存可能滞后；GitHub 内部备份不受本仓库控制。
+- **本地隐私门禁**：根目录 `AGENTS.md`（已 gitignore，不入库）记录隐私红线与 push 前检查；
+  `.git/hooks/pre-push` 在每次 push 时自动扫描已跟踪文件，命中 PII/凭据即阻断。
 - Windows/Linux 无本地真机运行（仅 CI 构建 + 交叉编译）；真实平台截图在 Phase 1.8.0。
 - 产物未签名/未公证（无 Developer ID），dmg 仅供本地与测试；分发策略见 DECISIONS D13。
 - `main.go` 仍是 `mygo init` 模板骨架（窗口 480×360），Phase 1.2.0 起替换为真实外壳。
@@ -108,18 +106,16 @@
 - 在 `/tmp` 的干净 clone 中偶发一次 `hdiutil` dmg 创建失败、重试即过（macOS 27 beta 环境偶发，
   非仓库缺陷）；`check.sh` 的 dmg 步骤对该环境敏感。
 
-10. **历史重写（2026-10-28，用户选择方案 A）**：为移除公开历史中的个人邮箱与家目录绝对路径，
-    `git filter-branch` 重写了全部 15 个 commit：邮箱 → `[redacted]`、`/Users/<user>` → `~/`；
-    随后 force-push `main`，重建并重签名 `v0.1.0` tag。旧 SHA 与本文件此前的 SHA 引用已失效，
-    上面已更新为重写后的 SHA；`07-ci.log` / `final-verify.log` 中记录的旧 CI run headSha 属于
-    重写前历史，仅作历史记录（run URL 仍可访问）。改动范围经逐行比对确认：17 个文件 / 64 行，
-    全部只涉及上述两类字符串。完成后的核验：force-push `main`（`e671c3f`）、重签 tag（对象
-    `d2fd15d` → commit `8f8ad51`）；匿名完整 clone 校验 `git log -S` 对邮箱与 `/Users/<user>` 均为 0；
-    重写后 CI run 三平台全绿。**最终处理（用户选择 B）**：GitHub 对不可达旧对象有保留期，force-push
-    后仍可按旧 SHA 匿名读取旧内容；因此 2026-10-28 再次**删除并同名重建**公开仓库，仅推入已清洗的
-    18-commit 历史与重签 tag，并在新仓库重跑 CI（run 40552337649 全绿）。重建后已匿名验证：旧 commit
-    API 返回 422、旧 SHA 的 raw 文件返回 404、旧 Actions run URL 返回 404；当前历史与 tag 均不含个人
-    邮箱/家目录路径。
+10. **隐私清理（2026-10-28，用户决策 A → B；多轮）**：为移除公开内容中的个人标识，处理如下：
+    - 第 1 轮（邮箱 + 家目录路径）：`git filter-branch --tree-filter` 重写全部历史，邮箱 → `[redacted]`、
+      `/Users/<user>` → `~/`（17 文件 / 64 行，经逐行比对确认只有这两类字符串变化）；重签 `v0.1.0`。
+    - 第 2 轮（本机账号名，用户追加要求）：tree-filter 把证据日志 `ls -la` 的账号列 → `user`。
+    - 第 3 轮（无必要内容不 track）：`--index-filter` 把三张 >6 MB 的全屏截图从历史与跟踪中移除
+      （含桌面内容且有体积负担），只保留窗口裁剪图与 `docs/evidence/.../smoke.png`（56 KB）。
+    - 因 GitHub 对 force-push 后的不可达对象有保留期（实测旧 SHA 的 raw 仍可匿名读取），最终按用户
+      选择 **删除并同名重建公开仓库**，仅推入已清洗历史（21 commits、`.git` 约 1.1 MB）与重签 tag；
+      新仓库重跑 CI 全绿（见文末/`07-ci.log`）。重建后匿名验证：旧 commit API 422、旧 SHA raw 404、
+      旧 Actions run URL 404。旧 SHA/旧 run 引用已更新或标注为历史记录；具体旧 SHA 不写入仓库。
 
 ## 6. GATE-1 用户复核步骤（约 5 分钟）
 
