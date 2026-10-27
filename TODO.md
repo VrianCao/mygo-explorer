@@ -114,8 +114,9 @@
 - [x] **1.1.7 CI 骨架**：`.github/workflows/ci.yml`，矩阵 `macos-latest / windows-latest / ubuntu-latest`；步骤：checkout → `actions/setup-go`（读 `app/go.mod`）→ `cd app && go test ./...` → `go tool mygo vet .` → `go tool mygo build`（各 OS 构建本机平台）→ 上传日志/产物。
   → 验收：首次 Actions run 三个 job 全绿（附 run URL）。
   → 证据：run <https://github.com/VrianCao/mygo-explorer/actions/runs/40538853325>（macOS 2m03s / Linux 1m03s / Windows 2m09s 全绿）；`docs/evidence/phase-1.1.0/07-ci.log` 记录各 job 步骤与产物，并下载核验 artifact：macOS `.app`+dmg、Windows `.exe`+NSIS setup、Linux binary+`.deb`+`.tar.gz`。
-- [ ] **1.1.8 本地校验脚本**：`app/scripts/check.sh`（gofmt 检查 + `go test ./...` + `go tool mygo vet .` + `go build ./...` + `go tool mygo build`），输出 PASS/FAIL 汇总。
+- [x] **1.1.8 本地校验脚本**：`app/scripts/check.sh`（gofmt 检查 + `go test ./...` + `go tool mygo vet .` + `go build ./...` + `go tool mygo build`），输出 PASS/FAIL 汇总。
   → 验收：脚本 exit 0；故意改坏一个测试时 exit ≠ 0（自测一次后还原）。
+  → 证据：`docs/evidence/phase-1.1.0/08-check.log`（run1 = 5 passed/0 failed、exit 0；故意把 `a.count != 1` 改为 `!= 2` 后 run2 = 4/1、exit 1；`git checkout` 还原后 run3 = 5/0、exit 0；`git diff --exit-code` 为空）。脚本把 `go build` 输出重定向到临时目录，避免在 `app/` 留下二进制。
 - [ ] **1.1.9 初始提交与 tag**：提交初始代码；`git tag v0.1.0`；README 最小版（定位、pins、运行命令、链接 PREPARATION/PLAN/TODO）。
   → 验收：`git log --oneline -1` 与 `git tag` 可见；README 内链接 200。
 - [ ] **1.1.10 骨架冒烟运行**：`cd app && go tool mygo dev` 启动窗口 `MyGo Explorer`，标题正确，Ctrl+C 干净退出；截图存 `docs/evidence/phase-1.1.0/smoke.png`；确认无残留进程。
