@@ -1,2 +1,6 @@
-ok  	github.com/VrianCao/mygo-explorer/app	(cached)
+# go test -count=1 -v ./...  (2026-10-27T16:39:04Z)
+=== RUN   TestView
+--- PASS: TestView (0.02s)
+PASS
+ok  	github.com/VrianCao/mygo-explorer/app	0.382s
 test-exit=0

@@ -18,3 +18,32 @@
 200  https://mygo.egoist.dev
 200  https://github.com/VrianCao/mygo-explorer/actions/workflows/ci.yml/badge.svg
 200  https://github.com/VrianCao/mygo-explorer/actions/workflows/ci.yml
+
+# ---
+# tag evidence (1.1.9) — audit follow-up added the tag record to this log
+# date: 2026-10-27T16:40:58Z
+$ git tag -n1
+v0.1.0          MyGo Explorer v0.1.0 — Phase 1.1.0 baseline: app module, pinned toolchain, three-platform CI, public repo
+
+$ git cat-file -t v0.1.0   # annotated tag object
+tag
+
+$ git cat-file -p v0.1.0 | head -5   # SSH-signed annotation (tag.gpgSign=true)
+object fa89e849e267ceb10279bdc0c181a424c1b9597d
+type commit
+tag v0.1.0
+tagger VrianCao <45995071+VrianCao@users.noreply.github.com> 1793118261 +0800
+
+
+$ git rev-list -n1 v0.1.0   # commit the tag points at (the 1.1.9 README commit)
+fa89e849e267ceb10279bdc0c181a424c1b9597d
+
+$ git log --oneline -1 v0.1.0
+fa89e84 docs(readme): minimal phase 1.1.0 README and tag v0.1.0 (1.1.9)
+
+$ git ls-remote --tags origin v0.1.0   # pushed tag object
+3eb789b42bfe0fc4ff87e73a594e454a8d3569cc	refs/tags/v0.1.0
+
+# note: the tag intentionally marks the 1.1.9 code baseline; the Phase
+# closure evidence (notes.md, GATES.md, smoke.png) is in later commits.
+# A published tag is not moved (no force-update) so consumers see a stable ref.

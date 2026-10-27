@@ -2,7 +2,7 @@
 
 - 日期：2026-10-27 ～ 2026-10-28（Asia/Shanghai），执行者：执行 Agent（Lead）
 - 范围：[TODO.md](../../TODO.md) Phase 1.1.0 的 1.1.1–1.1.10
-- 结论：**10/10 Checkbox 达成，等待用户 GATE-1 复核**（未进入 Phase 1.2.0）
+- 结论：**10/10 Checkbox 达成，独立复核 PASS，等待用户 GATE-1 复核**（未进入 Phase 1.2.0）
 
 ## 1. Phase 摘要（≤ 15 行，供 GATE-1 使用）
 
@@ -12,12 +12,14 @@
 4. 应用标识：`MyGo Explorer` / `dev.mygoexplorer.app` / `0.1.0`；本机打包 `.app` + dmg 成功，Info.plist 正确。
 5. 仓库卫生：MIT `LICENSE`、第三方 `NOTICE`、`.gitignore`（reference/build/密钥/临时文件均命中）。
 6. 公开仓库：<https://github.com/VrianCao/mygo-explorer>（PUBLIC，匿名 HTTP 200，topics/description 已设）。
-7. CI 骨架：三平台矩阵（macOS 2m03s / Linux 1m03s / Windows 2m09s）全绿，产物 artifact 已下载核验。
+7. CI 骨架：三平台矩阵全绿（run 40538853325：macOS 2m03s / Linux 1m03s / Windows 2m09s）；
+   复核后修订版 run 40542634813 亦全绿，artifact 内含 `ci/go-version.txt` 等工具链日志。
 8. 本地门禁：`app/scripts/check.sh` 5 项 PASS；故意改坏测试时 exit 1，还原后 exit 0。
-9. 发布基线：最小 README + 注释 tag `v0.1.0`（已推送），11/11 本地链接、3/3 外链可达。
-10. 冒烟：`go tool mygo dev` 窗口标题 `MyGo Explorer`，截图 `smoke.png`；SIGINT 干净退出，无残留进程。
-11. 遗留：Windows/Linux 仅 CI 构建（无真机运行）；产物未签名；图标为占位图。
-12. 待用户：执行 GATE-1（见 §6），确认名称/identifier/module/公开仓库/MIT/en+zh。
+9. 发布基线：最小 README + SSH 签名注释 tag `v0.1.0`（已推送），11/11 本地链接、3/3 外链可达。
+10. 冒烟：`go tool mygo dev` 窗口标题 `MyGo Explorer`、几何 480×360（960×720 截图）；SIGINT 干净退出，无残留进程。
+11. 独立 verifier 只读复核：1.1.1–1.1.10 与 AC1–AC4 全部 PASS；指出的证据/流程瑕疵已逐项修复（§4）。
+12. 遗留：Windows/Linux 仅 CI 构建（无真机运行）；产物未签名；图标为占位图；公开仓库含阶段 0 的个人邮箱（§5）。
+13. 待用户：执行 GATE-1（见 §6），确认名称/identifier/module/公开仓库/MIT/en+zh。
 
 ## 2. 证据索引
 
@@ -29,13 +31,13 @@
 | `04-build.log` | `go tool mygo build` 5.9s、产物、Info.plist、codesign adhoc |
 | `05-hygiene.log` | `git check-ignore -v` 8/8 命中；无密钥/build 被跟踪 |
 | `06-repo.log` | `gh repo create`、visibility=PUBLIC、匿名 HTTP 200、匿名 API |
-| `07-ci.log` | 首次 CI run 三 job 全绿、步骤、artifact 下载与产物清单 |
+| `07-ci.log` | 两次 CI run（40538853325 首次全绿；40542634813 复核后全绿）步骤、artifact 内容与工具链日志 |
 | `08-check.log` | `check.sh` 三次运行（PASS → 故意失败 exit 1 → 还原 PASS） |
-| `09-readme-tag.log` | README 链接检查（11 本地/3 外链 200）、tag |
-| `10-smoke.log` | `go tool mygo dev` 冒烟：窗口标题、截图、SIGINT、无残留进程 |
+| `09-readme-tag.log` | README 链接检查（11 本地/3 外链 200）+ annotated/SSH 签名 tag `v0.1.0` 的本地与远端记录 |
+| `10-smoke.log` | `go tool mygo dev` 冒烟：窗口标题/几何（稳定后 480×360）、截图、SIGINT、无残留进程 |
 | `smoke.png` | 960×720 真实窗口截图（标题 `MyGo Explorer`，深色主题） |
-| `test.txt` / `vet.txt` | `go test ./...` / `go tool mygo vet .` 输出（exit 0） |
-| `final-verify.log` | Phase AC1–AC4 的最终命令与结果 |
+| `test.txt` / `vet.txt` | `go test -count=1 -v ./...`（TestView PASS）/ `go tool mygo vet .` + `go vet ./...`（exit 0） |
+| `final-verify.log` | 在最终 HEAD 上运行的 Phase AC1–AC4 命令与结果（工作树干净） |
 | `commands.log` | 关键命令清单（便于复现） |
 
 ## 3. 验收对照（TODO Phase 1.1.0 AC）
@@ -43,11 +45,14 @@
 | AC | 判定 | 证据 |
 |---|---|---|
 | 1. `app/` 可构建、可运行、测试通过 | PASS | `final-verify.log` CHECK PASSED；`10-smoke.log`；`test.txt` |
-| 2. 公开仓库可访问，初始 commit + CI 绿 | PASS | `06-repo.log`（PUBLIC/HTTP 200）；`07-ci.log`（run 40538853325 三 job success） |
+| 2. 公开仓库可访问，初始 commit + CI 绿 | PASS | `06-repo.log`（PUBLIC/HTTP 200）；`07-ci.log`（两次 run 三 job success） |
 | 3. 版本 pin 与调研一致（go1.27.3 / mygo v0.7.1） | PASS | `03-pin.log`、`final-verify.log` |
 | 4. 决策、证据、README、LICENSE、.gitignore 齐备 | PASS | `final-verify.log` 文件清单；`05-hygiene.log` |
 
-## 4. 偏差与如实记录
+独立复核（verifier，只读，fresh context）结论：**1.1.1–1.1.10 与 AC1–AC4 均 PASS**；
+其提出的 9 项证据/流程瑕疵中，可由本 Phase 修复的 6 项已修复并重新验证（§4）。
+
+## 4. 偏差、修复与如实记录
 
 1. **TODO 1.1.2 的命令顺序**：原文 `mygo init -template native app -name ...` 会被 Go flag 解析拒绝
    （首个位置参数后的 flags 被当作参数 → `error: missing project directory`）。实际命令把目录放最后：
@@ -55,22 +60,44 @@
    见 `01-init.log`。TODO 原文未改（以 TODO 为准），此偏差在此记录。
 2. **`go build ./...` 产物**：直接在 `app/` 运行会在源码旁生成名为 `app` 的二进制；`check.sh` 已把
    `-o` 指向临时目录，仓库中无该产物（曾于本地生成一次并删除，未提交）。
-3. **提交粒度**：commit `b06dc03`（1.1.7 证据）在等待 CI 期间用 `git add -A` 一并纳入了 1.1.8 的
-   `app/scripts/check.sh` 与 `08-check.log`；随后 `3543756` 仅含 1.1.8 的 TODO 勾选。未重写已推送的
-   公开历史（避免 force-push），如实记录于此。功能与验收不受影响。
+3. **提交粒度（如实披露，未重写已推送历史）**：commit `b06dc03`（标 1.1.7 证据）在等待 CI 期间用
+   `git add -A` 一并纳入了 1.1.8 的 `app/scripts/check.sh` 与 `08-check.log`；随后 `3543756` 的
+   message 写“add app/scripts/check.sh (1.1.8)”，实际只含 TODO.md 两行改动。因仓库已公开且 CI/证据
+   引用了既有 SHA，选择不 force-push 重写历史；功能与验收不受影响。
 4. **宿主 Go 版本**：本机 host Go 为 `go1.26.4`，模块内由 `GOTOOLCHAIN=auto` 选用 `go1.27.3`
    （`GOROOT=.../toolchain@v0.0.1-go1.27.3.darwin-arm64`），未安装第二套 Go。
 5. **默认决策**：`VrianCao`（仓库 owner）、`github.com/VrianCao/mygo-explorer/app`（module）、
    `dev.mygoexplorer.app`（identifier）均为默认值，待 GATE-1 确认（见 `docs/DECISIONS.md` §4）。
 6. **CI 平台**：macOS runner 为 arm64、Linux/Windows 为 x64；构建产物为各 runner 本机平台。
+7. **独立复核后的修复（B1/B3/B4/B5/B6）**：
+   - `final-verify.log` 原先在收尾 commit 之前生成、含过期的未跟踪文件列表 → 已改为在最终 HEAD 重跑
+     （工作树干净），不再自相矛盾。
+   - `09-readme-tag.log` 原先只有链接检查、没有 tag 记录 → 已补 tag 的本地/远端/签名证据。
+   - `10-smoke.log` 原先窗口 bounds 记录为动画中间态（320×267）→ 冒烟脚本改为等待几何稳定后
+     再截图（480×360 pt / 960×720 px），并先重置 dev 窗口状态以保证可复现；重跑后 PASS。
+   - CI 原先只上传构建产物 → 增加 `Write toolchain and module logs` 步骤，把
+     `go version` / `go env` / `go list -m all` / `mygo version` 写入 `build/ci/` 并随 artifact 上传
+     （run 40542634813 已核验：`ci/go-version.txt` 在 macOS/linux/windows 三份 artifact 中均存在）。
+   - `test.txt` / `vet.txt` 过薄 → 改为 `go test -count=1 -v`（含 TestView PASS）与
+     `go tool mygo vet .` + `go vet ./...` 的实际输出。
+8. **tag 时点（B7，决定保留）**：`v0.1.0` 指向 1.1.9 的 README commit `fa89e84`，不含后续收尾证据
+   （notes/GATES/smoke）。理由：TODO 1.1.9 的顺序即“初始提交与 tag”先于 1.1.10 冒烟；公开 tag 已推送，
+   为稳定引用不 force-update。证据见 `09-readme-tag.log` 末尾。
+9. **B8**：`.gitignore` 的过期注释（“app/ is created in M1”）已改为“Target app build outputs”。
 
 ## 5. 遗留问题 / 风险
 
+- **公开仓库隐私提示（需用户知情）**：阶段 0 研究产物把本机 Xcode 身份邮箱
+  （`research/prep/ENVIRONMENT.md` 中的 `Apple Development: [redacted]`）与大量
+  `~/...` 绝对路径带入了公开仓库（自初始 commit 起已公开）。已扫描无 token/私钥。
+  如需移除，需重写历史（`git filter-repo`）并 force-push；本 Phase 未擅自重写，待用户决定。
 - Windows/Linux 无本地真机运行（仅 CI 构建 + 交叉编译）；真实平台截图在 Phase 1.8.0。
 - 产物未签名/未公证（无 Developer ID），dmg 仅供本地与测试；分发策略见 DECISIONS D13。
 - `main.go` 仍是 `mygo init` 模板骨架（窗口 480×360），Phase 1.2.0 起替换为真实外壳。
 - 占位图标 Phase 1.10.1 替换。
-- CI `paths-ignore` 跳过了纯文档提交（`docs/**`、`**/*.md`、`LICENSE`），这是有意设计。
+- CI `paths-ignore` 跳过纯文档提交（`docs/**`、`**/*.md`、`LICENSE`）：有意设计，但会让 badge 落后于 HEAD。
+- 在 `/tmp` 的干净 clone 中偶发一次 `hdiutil` dmg 创建失败、重试即过（macOS 27 beta 环境偶发，
+  非仓库缺陷）；`check.sh` 的 dmg 步骤对该环境敏感。
 
 ## 6. GATE-1 用户复核步骤（约 5 分钟）
 

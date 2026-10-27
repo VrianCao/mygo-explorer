@@ -12,10 +12,14 @@
 - 状态：**PENDING（等待用户复核）**
 - 准备完成时间：2026-10-28（Asia/Shanghai）
 - 证据目录：[`docs/evidence/phase-1.1.0/`](evidence/phase-1.1.0/)
-- Phase 摘要：见 [`docs/evidence/phase-1.1.0/notes.md` §1](evidence/phase-1.1.0/notes.md)（12 行）
+- Phase 摘要：见 [`docs/evidence/phase-1.1.0/notes.md` §1](evidence/phase-1.1.0/notes.md)（13 行）
 - 公开仓库：<https://github.com/VrianCao/mygo-explorer>
 - 首次 CI run：<https://github.com/VrianCao/mygo-explorer/actions/runs/40538853325>（三平台全绿）
-- 发布基线 tag：`v0.1.0`
+- 复核后 CI run：<https://github.com/VrianCao/mygo-explorer/actions/runs/40542634813>（全绿，artifact 含工具链日志）
+- 发布基线 tag：`v0.1.0`（annotated + SSH 签名，指向 1.1.9 的 README commit；收尾证据在其后的提交中）
+- 独立复核：verifier（只读、fresh context）判定 1.1.1–1.1.10 与 AC1–AC4 **全部 PASS**；
+  其指出的证据/流程瑕疵已修复 6 项、记录 2 项决策（详见 notes.md §4）
+- 证据刷新时间：2026-10-28（Asia/Shanghai）
 
 ### 用户需执行（约 5 分钟）
 

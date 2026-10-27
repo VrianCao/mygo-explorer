@@ -80,3 +80,61 @@ mygo-explorer-Windows-X64/windows-amd64
 mygo-explorer-Windows-X64/windows-amd64/icon.png
 mygo-explorer-Windows-X64/windows-amd64/MyGo Explorer.exe
 mygo-explorer-Windows-X64/windows-amd64/mygo-explorer-setup-0.1.0-amd64.exe
+# ---
+# audit follow-up: run 40542634813 writes toolchain logs into the artifact
+# date: 2026-10-27T16:40:33Z
+$ gh run view 40542634813 --json url,conclusion,jobs
+url=https://github.com/VrianCao/mygo-explorer/actions/runs/40542634813 conclusion=success
+JOB macOS: success 2026-10-27T16:37:22Z → 2026-10-27T16:38:00Z
+JOB Windows: success 2026-10-27T16:36:54Z → 2026-10-27T16:38:38Z
+JOB Linux: success 2026-10-27T16:36:55Z → 2026-10-27T16:37:53Z
+
+$ gh run download 40542634813 -D /tmp/mge-ci-artifacts2
+download-exit=0 (done above)
+
+# artifact trees (upload-artifact strips app/build/, so logs are ci/)
+/tmp/mge-ci-artifacts2
+mygo-explorer-Linux-X64
+mygo-explorer-Linux-X64/ci
+mygo-explorer-Linux-X64/ci/go-env.txt
+mygo-explorer-Linux-X64/ci/go-modules.txt
+mygo-explorer-Linux-X64/ci/go-version.txt
+mygo-explorer-Linux-X64/ci/mygo-version.txt
+mygo-explorer-Linux-X64/linux-amd64
+mygo-explorer-Linux-X64/linux-amd64/icon.png
+mygo-explorer-Linux-X64/linux-amd64/install.sh
+mygo-explorer-Linux-X64/linux-amd64/mygo-explorer
+mygo-explorer-Linux-X64/linux-amd64/mygo-explorer_0.1.0_amd64.deb
+mygo-explorer-Linux-X64/linux-amd64/mygo-explorer-0.1.0-linux-amd64.tar.gz
+mygo-explorer-Linux-X64/linux-amd64/mygo-explorer.desktop
+mygo-explorer-Linux-X64/linux-amd64/mygo-explorer.png
+mygo-explorer-macOS-ARM64
+mygo-explorer-macOS-ARM64/ci
+mygo-explorer-macOS-ARM64/ci/go-env.txt
+mygo-explorer-macOS-ARM64/ci/go-modules.txt
+mygo-explorer-macOS-ARM64/ci/go-version.txt
+mygo-explorer-macOS-ARM64/ci/mygo-version.txt
+mygo-explorer-macOS-ARM64/darwin-arm64
+mygo-explorer-macOS-ARM64/darwin-arm64/MyGo Explorer.app
+mygo-explorer-macOS-ARM64/darwin-arm64/mygo-explorer-0.1.0-arm64.dmg
+mygo-explorer-Windows-X64
+mygo-explorer-Windows-X64/ci
+mygo-explorer-Windows-X64/ci/go-env.txt
+mygo-explorer-Windows-X64/ci/go-modules.txt
+mygo-explorer-Windows-X64/ci/go-version.txt
+mygo-explorer-Windows-X64/ci/mygo-version.txt
+mygo-explorer-Windows-X64/windows-amd64
+mygo-explorer-Windows-X64/windows-amd64/icon.png
+mygo-explorer-Windows-X64/windows-amd64/MyGo Explorer.exe
+mygo-explorer-Windows-X64/windows-amd64/mygo-explorer-setup-0.1.0-amd64.exe
+
+# toolchain logs collected on each runner
+-- mygo-explorer-Linux-X64
+   go-version: go version go1.27.3 linux/amd64
+   mygo-version: mygo 0.7.1
+-- mygo-explorer-macOS-ARM64
+   go-version: go version go1.27.3 darwin/arm64
+   mygo-version: mygo 0.7.1
+-- mygo-explorer-Windows-X64
+   go-version: go version go1.27.3 windows/amd64
+   mygo-version: mygo 0.7.1
