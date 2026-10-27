@@ -14,7 +14,7 @@
 - 证据目录：[`docs/evidence/phase-1.1.0/`](evidence/phase-1.1.0/)
 - Phase 摘要：见 [`docs/evidence/phase-1.1.0/notes.md` §1](evidence/phase-1.1.0/notes.md)（13 行）
 - 公开仓库：<https://github.com/VrianCao/mygo-explorer>
-- CI run（最终重建仓库后）：<https://github.com/VrianCao/mygo-explorer/actions/runs/40554262094>（三平台全绿，artifact 含工具链日志）
+- CI run（最终重建仓库后）：<https://github.com/VrianCao/mygo-explorer/actions/runs/40555595420>（三平台全绿，artifact 含工具链日志）
 - 说明：原仓库的三次 run 随 2026-10-28 删除重建而失效（URL 404），历史记录仍在 `07-ci.log`
 - 发布基线 tag：`v0.1.0`（annotated + SSH 签名，指向 1.1.9 的 README commit；收尾证据在其后的提交中）
 - 独立复核：verifier（只读、fresh context）判定 1.1.1–1.1.10 与 AC1–AC4 **全部 PASS**；

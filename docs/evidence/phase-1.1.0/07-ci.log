@@ -185,3 +185,17 @@ $ gh api .../runs/40554262094/artifacts
 mygo-explorer-Linux-X64 12672044 bytes
 mygo-explorer-Windows-X64 7687850 bytes
 mygo-explorer-macOS-ARM64 7357493 bytes
+
+# ---
+# 最终重建仓库 + 修正证据脱敏后的 CI run（2026-10-28，最终发布状态）
+# date: 2026-10-27T18:01:14Z
+$ gh run view 40555595420 --json url,conclusion,headSha,jobs
+url=https://github.com/VrianCao/mygo-explorer/actions/runs/40555595420 conclusion=success headSha=f7323ff
+JOB Linux: success 2026-10-27T17:58:38Z → 2026-10-27T17:59:50Z
+JOB macOS: success 2026-10-27T17:58:39Z → 2026-10-27T18:00:55Z
+JOB Windows: success 2026-10-27T17:58:38Z → 2026-10-27T18:00:49Z
+
+$ gh api .../runs/40555595420/artifacts
+mygo-explorer-macOS-ARM64 7357286 bytes
+mygo-explorer-Linux-X64 12671974 bytes
+mygo-explorer-Windows-X64 7689367 bytes

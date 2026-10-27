@@ -97,3 +97,15 @@ $ git rev-parse v0.1.0 -> commit
 signature blocks: 1
 commits: 22
 tracked files >1 MB: 1
+
+# ---
+# 2026-10-28 最终发布状态（重建后）
+$ git ls-remote origin
+f7323ffea9f670b1f8119846b8a5514a916ea399	HEAD
+f7323ffea9f670b1f8119846b8a5514a916ea399	refs/heads/main
+8e5bb0590023a3c99e004cd2291a5d42108e63ee	refs/tags/v0.1.0
+8707ea17c86460e8cbc39ca7b7a67c955d1f382b	refs/tags/v0.1.0^{}
+tag 8e5bb0590023a3c99e004cd2291a5d42108e63ee -> 8707ea17c86460e8cbc39ca7b7a67c955d1f382b (SSH sig blocks: 1)
+commits: 24
+tracked files >1 MB: research/docs/llms-full.txt 
+AGENTS.md tracked: no (gitignored)
