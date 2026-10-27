@@ -1,6 +1,7 @@
-# Phase 1.1.0 acceptance verification (re-run after independent audit fixes)
-# date: 2026-10-27T16:42:39Z
-# HEAD at run time: 9b55c1a docs(evidence): address independent audit findings for Phase 1.1.0
+# Phase 1.1.0 acceptance verification (after 2026-10-28 privacy history rewrite)
+# date: 2026-10-27T17:04:59Z
+# HEAD at run time: 7077f84 docs(evidence): verify scrubbed history, re-signed tag and post-rewrite CI
+# note: CI runs whose headSha is not in the current history predate the rewrite.
 
 ## AC1: app module builds, runs, tests pass
 $ cd app && ./scripts/check.sh
@@ -20,7 +21,7 @@ go tool mygo vet . took 0s
 PASS  go tool mygo vet .
 
 ==> go build ./...
-go build ./... took 1s
+go build ./... took 0s
 PASS  go build ./...
 
 ==> go tool mygo build
@@ -28,13 +29,13 @@ PASS  go build ./...
   MyGo!!!!! v0.7.1  build
 
   ○ Compiling darwin/arm64
-  ✓ Compiled darwin/arm64  243ms
+  ✓ Compiled darwin/arm64  241ms
   ○ Signing MyGo Explorer.app
-  ✓ Signed MyGo Explorer.app  21ms
+  ✓ Signed MyGo Explorer.app  19ms
   ○ Creating mygo-explorer-0.1.0-arm64.dmg
-  ✓ Created mygo-explorer-0.1.0-arm64.dmg  5.2s
+  ✓ Created mygo-explorer-0.1.0-arm64.dmg  4.6s
 
-  ✓ Built MyGo Explorer 0.1.0 in 5.6s
+  ✓ Built MyGo Explorer 0.1.0 in 5.0s
 
     build/darwin-arm64/
       MyGo Explorer.app                 9.1 MB
@@ -60,17 +61,25 @@ $ gh repo view VrianCao/mygo-explorer --json visibility,url
 $ curl anonymous https://github.com/VrianCao/mygo-explorer
 HTTP 200
 
-$ git log --oneline | wc -l   # commits
-      14
+$ git log --oneline | wc -l
+      17
 $ git log --oneline -1
-9b55c1a docs(evidence): address independent audit findings for Phase 1.1.0
+7077f84 docs(evidence): verify scrubbed history, re-signed tag and post-rewrite CI
 
 $ gh run list --limit 5 --json databaseId,headSha,status,conclusion,url
-[{"conclusion":"success","databaseId":40542634813,"headSha":"807d885d16935078868137313a072d234bad3be5","status":"completed","url":"https://github.com/VrianCao/mygo-explorer/actions/runs/40542634813"},{"conclusion":"success","databaseId":40540456159,"headSha":"b06dc034c643e4ee472a7e1933097bf8fd8101df","status":"completed","url":"https://github.com/VrianCao/mygo-explorer/actions/runs/40540456159"},{"conclusion":"success","databaseId":40538853325,"headSha":"55f172911cccd3e2dc0bc9ee0a27efe457335682","status":"completed","url":"https://github.com/VrianCao/mygo-explorer/actions/runs/40538853325"}]
+[{"conclusion":"success","databaseId":40546689059,"headSha":"e671c3ff78f40f2f0841e1c3d337126850071a49","status":"completed","url":"https://github.com/VrianCao/mygo-explorer/actions/runs/40546689059"},{"conclusion":"success","databaseId":40546446164,"headSha":"189a4d502dbce3e8843cfe13f91aa4e03e48b7db","status":"completed","url":"https://github.com/VrianCao/mygo-explorer/actions/runs/40546446164"},{"conclusion":"success","databaseId":40542634813,"headSha":"807d885d16935078868137313a072d234bad3be5","status":"completed","url":"https://github.com/VrianCao/mygo-explorer/actions/runs/40542634813"},{"conclusion":"success","databaseId":40540456159,"headSha":"b06dc034c643e4ee472a7e1933097bf8fd8101df","status":"completed","url":"https://github.com/VrianCao/mygo-explorer/actions/runs/40540456159"},{"conclusion":"success","databaseId":40538853325,"headSha":"55f172911cccd3e2dc0bc9ee0a27efe457335682","status":"completed","url":"https://github.com/VrianCao/mygo-explorer/actions/runs/40538853325"}]
 
-$ git ls-remote --tags origin
-3eb789b42bfe0fc4ff87e73a594e454a8d3569cc	refs/tags/v0.1.0
-fa89e849e267ceb10279bdc0c181a424c1b9597d	refs/tags/v0.1.0^{}
+$ gh run view 40546689059 --json conclusion,jobs
+success
+Windows: success
+macOS: success
+Linux: success
+
+$ git ls-remote origin
+7077f84df6a6fc65738ce3c929dfcc09ce019158	HEAD
+7077f84df6a6fc65738ce3c929dfcc09ce019158	refs/heads/main
+d2fd15d67a0585a4fed37510b68bf42e66bc47de	refs/tags/v0.1.0
+8f8ad51161b9d2ee6f709061eda4fd9138dd5901	refs/tags/v0.1.0^{}
 
 ## AC3: version pins match research
 $ cd app && go version && go list -m github.com/egoist/mygo
@@ -87,7 +96,7 @@ $ ls -l docs/DECISIONS.md LICENSE NOTICE README.md .gitignore app/go.mod app/myg
 -rw-------@ 1 user  staff   654 Oct 28 00:36 .gitignore
 -rw-r--r--@ 1 user  staff   364 Oct 28 00:09 app/go.mod
 -rw-r--r--@ 1 user  staff   110 Oct 28 00:10 app/mygo.json
--rw-------@ 1 user  staff  5427 Oct 28 00:08 docs/DECISIONS.md
+-rw-------@ 1 user  staff  5745 Oct 28 01:01 docs/DECISIONS.md
 -rw-------@ 1 user  staff  1083 Oct 28 00:11 LICENSE
 -rw-------@ 1 user  staff  1862 Oct 28 00:11 NOTICE
 -rw-------@ 1 user  staff  4599 Oct 28 00:23 README.md
@@ -108,6 +117,12 @@ notes.md
 smoke.png
 test.txt
 vet.txt
+
+## privacy scrub verification (post-rewrite)
+personal e-mail in any commit (git log -S): 0
+home-path literal in any commit (git log -S): 0
+personal e-mail in HEAD tree (git grep): 0
+home-path literal in HEAD tree (git grep): 0
 
 $ git status --short   # working tree at run time (empty = clean)
 [end of git status]
