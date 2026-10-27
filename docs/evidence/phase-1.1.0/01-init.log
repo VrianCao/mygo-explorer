@@ -1,0 +1,14 @@
+$ mygo init -template native -name "MyGo Explorer" -module github.com/VrianCao/mygo-explorer/app app
+# note: TODO.md 1.1.2 原文把目录写在 flags 前，Go flag 解析会在首个位置参数处停止，故调整为先 flags 后目录
+# date: 2026-10-27T16:09:19Z
+  • Creating ~/Code_New/MyGoExplorer/app
+go: added github.com/egoist/mygo v0.7.1
+go: added golang.org/x/text v0.43.0
+
+Created MyGo Explorer. Next steps:
+
+  cd app
+  go tool mygo dev      # develop with live reload
+  go test               # test the view without a window
+  go tool mygo build    # package the app
+

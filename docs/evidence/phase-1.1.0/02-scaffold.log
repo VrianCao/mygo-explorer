@@ -1,0 +1,22 @@
+$ cd app && go version
+go version go1.27.3 darwin/arm64
+
+$ go list -m github.com/egoist/mygo
+github.com/egoist/mygo v0.7.1
+
+$ go test ./...
+ok  	github.com/VrianCao/mygo-explorer/app	0.507s
+
+# generated files:
+.
+./.agents
+./.agents/skills
+./.agents/skills/mygo-maintenance
+./.gitignore
+./go.mod
+./go.sum
+./main_test.go
+./main.go
+./mygo.json
+./resources
+./resources/icon.png
