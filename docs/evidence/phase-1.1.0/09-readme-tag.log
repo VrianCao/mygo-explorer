@@ -47,3 +47,7 @@ $ git ls-remote --tags origin v0.1.0   # pushed tag object
 # note: the tag intentionally marks the 1.1.9 code baseline; the Phase
 # closure evidence (notes.md, GATES.md, smoke.png) is in later commits.
 # A published tag is not moved (no force-update) so consumers see a stable ref.
+
+# NOTE（2026-10-28 历史重写）：上面的 tag 记录产生于历史重写之前（fa89e84 / tag object
+# 3eb789b）。重写并重签后：v0.1.0 指向 commit 8f8ad51，tag 为新的 SSH 签名 annotated tag，
+# 旧 SHA 不可达。重写后的 tag 验证见文件末尾追加记录。

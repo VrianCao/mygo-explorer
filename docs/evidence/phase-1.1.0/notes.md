@@ -18,7 +18,7 @@
 9. 发布基线：最小 README + SSH 签名注释 tag `v0.1.0`（已推送），11/11 本地链接、3/3 外链可达。
 10. 冒烟：`go tool mygo dev` 窗口标题 `MyGo Explorer`、几何 480×360（960×720 截图）；SIGINT 干净退出，无残留进程。
 11. 独立 verifier 只读复核：1.1.1–1.1.10 与 AC1–AC4 全部 PASS；指出的证据/流程瑕疵已逐项修复（§4）。
-12. 遗留：Windows/Linux 仅 CI 构建（无真机运行）；产物未签名；图标为占位图；公开仓库含阶段 0 的个人邮箱（§5）。
+12. 遗留：Windows/Linux 仅 CI 构建（无真机运行）；产物未签名；图标为占位图；个人邮箱与绝对路径已按用户决定重写历史清除（§5）。
 13. 待用户：执行 GATE-1（见 §6），确认名称/identifier/module/公开仓库/MIT/en+zh。
 
 ## 2. 证据索引
@@ -60,10 +60,10 @@
    见 `01-init.log`。TODO 原文未改（以 TODO 为准），此偏差在此记录。
 2. **`go build ./...` 产物**：直接在 `app/` 运行会在源码旁生成名为 `app` 的二进制；`check.sh` 已把
    `-o` 指向临时目录，仓库中无该产物（曾于本地生成一次并删除，未提交）。
-3. **提交粒度（如实披露，未重写已推送历史）**：commit `b06dc03`（标 1.1.7 证据）在等待 CI 期间用
-   `git add -A` 一并纳入了 1.1.8 的 `app/scripts/check.sh` 与 `08-check.log`；随后 `3543756` 的
-   message 写“add app/scripts/check.sh (1.1.8)”，实际只含 TODO.md 两行改动。因仓库已公开且 CI/证据
-   引用了既有 SHA，选择不 force-push 重写历史；功能与验收不受影响。
+3. **提交粒度（如实披露）**：commit `71d3dc8`（标 1.1.7 证据）在等待 CI 期间用
+   `git add -A` 一并纳入了 1.1.8 的 `app/scripts/check.sh` 与 `08-check.log`；随后 `775e44d` 的
+   message 写“add app/scripts/check.sh (1.1.8)”，实际只含 TODO.md 两行改动。功能与验收不受影响。
+   （2026-10-28 因隐私清理重写历史，此处为**重写后**的 SHA；语义不变。）
 4. **宿主 Go 版本**：本机 host Go 为 `go1.26.4`，模块内由 `GOTOOLCHAIN=auto` 选用 `go1.27.3`
    （`GOROOT=.../toolchain@v0.0.1-go1.27.3.darwin-arm64`），未安装第二套 Go。
 5. **默认决策**：`VrianCao`（仓库 owner）、`github.com/VrianCao/mygo-explorer/app`（module）、
@@ -80,17 +80,20 @@
      （run 40542634813 已核验：`ci/go-version.txt` 在 macOS/linux/windows 三份 artifact 中均存在）。
    - `test.txt` / `vet.txt` 过薄 → 改为 `go test -count=1 -v`（含 TestView PASS）与
      `go tool mygo vet .` + `go vet ./...` 的实际输出。
-8. **tag 时点（B7，决定保留）**：`v0.1.0` 指向 1.1.9 的 README commit `fa89e84`，不含后续收尾证据
-   （notes/GATES/smoke）。理由：TODO 1.1.9 的顺序即“初始提交与 tag”先于 1.1.10 冒烟；公开 tag 已推送，
-   为稳定引用不 force-update。证据见 `09-readme-tag.log` 末尾。
+8. **tag 时点（B7，决定保留）**：`v0.1.0` 指向 1.1.9 的 README commit `8f8ad51`（重写后 SHA），
+   不含后续收尾证据（notes/GATES/smoke）。理由：TODO 1.1.9 的顺序即“初始提交与 tag”先于 1.1.10
+   冒烟；tag 在历史重写时按同一语义重签，不另行移动。证据见 `09-readme-tag.log` 末尾。
 9. **B8**：`.gitignore` 的过期注释（“app/ is created in M1”）已改为“Target app build outputs”。
 
 ## 5. 遗留问题 / 风险
 
-- **公开仓库隐私提示（需用户知情）**：阶段 0 研究产物把本机 Xcode 身份邮箱
-  （`research/prep/ENVIRONMENT.md` 中的 `Apple Development: [redacted]`）与大量
-  `~/...` 绝对路径带入了公开仓库（自初始 commit 起已公开）。已扫描无 token/私钥。
-  如需移除，需重写历史（`git filter-repo`）并 force-push；本 Phase 未擅自重写，待用户决定。
+- **公开仓库隐私（已处理）**：阶段 0 研究产物曾把本机 Xcode 身份邮箱
+  （`research/prep/ENVIRONMENT.md` 的 `Apple Development: …`）与大量 `/Users/<user>/...` 绝对路径
+  带入公开仓库（自初始 commit 起公开）。经用户选择方案 A，2026-10-28 用 `git filter-branch` 重写
+  全部历史：邮箱替换为 `[redacted]`、家目录路径归一化为 `~/`，force-push `main`，并重建/重签
+  `v0.1.0` tag。已核验新历史每个 commit 都不再含该邮箱或 `/Users/<user>`；逐行比对确认改动仅涉及
+  17 个文件的 64 行，全部属于上述两类字符串。残留风险：GitHub 可能短期缓存不可达对象（必要时
+  可联系 GitHub Support 清理），搜索引擎缓存可能滞后；重写前的 SHA 不可达，旧 CI run 仅作历史记录。
 - Windows/Linux 无本地真机运行（仅 CI 构建 + 交叉编译）；真实平台截图在 Phase 1.8.0。
 - 产物未签名/未公证（无 Developer ID），dmg 仅供本地与测试；分发策略见 DECISIONS D13。
 - `main.go` 仍是 `mygo init` 模板骨架（窗口 480×360），Phase 1.2.0 起替换为真实外壳。
@@ -98,6 +101,13 @@
 - CI `paths-ignore` 跳过纯文档提交（`docs/**`、`**/*.md`、`LICENSE`）：有意设计，但会让 badge 落后于 HEAD。
 - 在 `/tmp` 的干净 clone 中偶发一次 `hdiutil` dmg 创建失败、重试即过（macOS 27 beta 环境偶发，
   非仓库缺陷）；`check.sh` 的 dmg 步骤对该环境敏感。
+
+10. **历史重写（2026-10-28，用户选择方案 A）**：为移除公开历史中的个人邮箱与家目录绝对路径，
+    `git filter-branch` 重写了全部 15 个 commit：邮箱 → `[redacted]`、`/Users/<user>` → `~/`；
+    随后 force-push `main`，重建并重签名 `v0.1.0` tag。旧 SHA 与本文件此前的 SHA 引用已失效，
+    上面已更新为重写后的 SHA；`07-ci.log` / `final-verify.log` 中记录的旧 CI run headSha 属于
+    重写前历史，仅作历史记录（run URL 仍可访问）。改动范围经逐行比对确认：17 个文件 / 64 行，
+    全部只涉及上述两类字符串。
 
 ## 6. GATE-1 用户复核步骤（约 5 分钟）
 
