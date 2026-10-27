@@ -1,5 +1,6 @@
-# Phase 1.1.0 acceptance verification
-# date: 2026-10-27T16:25:28Z
+# Phase 1.1.0 acceptance verification (re-run after independent audit fixes)
+# date: 2026-10-27T16:42:39Z
+# HEAD at run time: 9b55c1a docs(evidence): address independent audit findings for Phase 1.1.0
 
 ## AC1: app module builds, runs, tests pass
 $ cd app && ./scripts/check.sh
@@ -19,7 +20,7 @@ go tool mygo vet . took 0s
 PASS  go tool mygo vet .
 
 ==> go build ./...
-go build ./... took 0s
+go build ./... took 1s
 PASS  go build ./...
 
 ==> go tool mygo build
@@ -27,19 +28,19 @@ PASS  go build ./...
   MyGo!!!!! v0.7.1  build
 
   ○ Compiling darwin/arm64
-  ✓ Compiled darwin/arm64  517ms
+  ✓ Compiled darwin/arm64  243ms
   ○ Signing MyGo Explorer.app
-  ✓ Signed MyGo Explorer.app  19ms
+  ✓ Signed MyGo Explorer.app  21ms
   ○ Creating mygo-explorer-0.1.0-arm64.dmg
-  ✓ Created mygo-explorer-0.1.0-arm64.dmg  5.3s
+  ✓ Created mygo-explorer-0.1.0-arm64.dmg  5.2s
 
-  ✓ Built MyGo Explorer 0.1.0 in 6.0s
+  ✓ Built MyGo Explorer 0.1.0 in 5.6s
 
     build/darwin-arm64/
       MyGo Explorer.app                 9.1 MB
       mygo-explorer-0.1.0-arm64.dmg     3.0 MB
 
-go tool mygo build took 7s
+go tool mygo build took 6s
 PASS  go tool mygo build
 
 ==> Summary
@@ -50,7 +51,7 @@ PASS  go build ./...
 PASS  go tool mygo build
 5 passed, 0 failed
 CHECK PASSED
-(exit=0)
+(check.sh exit=0)
 
 ## AC2: public repo accessible, initial commit + CI green
 $ gh repo view VrianCao/mygo-explorer --json visibility,url
@@ -59,11 +60,13 @@ $ gh repo view VrianCao/mygo-explorer --json visibility,url
 $ curl anonymous https://github.com/VrianCao/mygo-explorer
 HTTP 200
 
-$ git log --oneline | wc -l
-      11
+$ git log --oneline | wc -l   # commits
+      14
+$ git log --oneline -1
+9b55c1a docs(evidence): address independent audit findings for Phase 1.1.0
 
-$ gh run list --limit 3 --json databaseId,headSha,status,conclusion,url
-[{"conclusion":"success","databaseId":40540456159,"headSha":"b06dc034c643e4ee472a7e1933097bf8fd8101df","status":"completed","url":"https://github.com/VrianCao/mygo-explorer/actions/runs/40540456159"},{"conclusion":"success","databaseId":40538853325,"headSha":"55f172911cccd3e2dc0bc9ee0a27efe457335682","status":"completed","url":"https://github.com/VrianCao/mygo-explorer/actions/runs/40538853325"}]
+$ gh run list --limit 5 --json databaseId,headSha,status,conclusion,url
+[{"conclusion":"success","databaseId":40542634813,"headSha":"807d885d16935078868137313a072d234bad3be5","status":"completed","url":"https://github.com/VrianCao/mygo-explorer/actions/runs/40542634813"},{"conclusion":"success","databaseId":40540456159,"headSha":"b06dc034c643e4ee472a7e1933097bf8fd8101df","status":"completed","url":"https://github.com/VrianCao/mygo-explorer/actions/runs/40540456159"},{"conclusion":"success","databaseId":40538853325,"headSha":"55f172911cccd3e2dc0bc9ee0a27efe457335682","status":"completed","url":"https://github.com/VrianCao/mygo-explorer/actions/runs/40538853325"}]
 
 $ git ls-remote --tags origin
 3eb789b42bfe0fc4ff87e73a594e454a8d3569cc	refs/tags/v0.1.0
@@ -80,14 +83,15 @@ tool github.com/egoist/mygo/cmd/mygo
 require github.com/egoist/mygo v0.7.1
 
 ## AC4: decisions, evidence, README, LICENSE, .gitignore present
-$ ls -l docs/DECISIONS.md LICENSE NOTICE README.md .gitignore app/go.mod app/mygo.json docs/evidence/phase-1.1.0/
--rw-------@ 1 user  staff   658 Oct 28 00:11 .gitignore
+$ ls -l docs/DECISIONS.md LICENSE NOTICE README.md .gitignore app/go.mod app/mygo.json
+-rw-------@ 1 user  staff   654 Oct 28 00:36 .gitignore
 -rw-r--r--@ 1 user  staff   364 Oct 28 00:09 app/go.mod
 -rw-r--r--@ 1 user  staff   110 Oct 28 00:10 app/mygo.json
 -rw-------@ 1 user  staff  5427 Oct 28 00:08 docs/DECISIONS.md
 -rw-------@ 1 user  staff  1083 Oct 28 00:11 LICENSE
 -rw-------@ 1 user  staff  1862 Oct 28 00:11 NOTICE
 -rw-------@ 1 user  staff  4599 Oct 28 00:23 README.md
+$ ls docs/evidence/phase-1.1.0/
 01-init.log
 02-scaffold.log
 03-pin.log
@@ -98,16 +102,15 @@ $ ls -l docs/DECISIONS.md LICENSE NOTICE README.md .gitignore app/go.mod app/myg
 08-check.log
 09-readme-tag.log
 10-smoke.log
+commands.log
 final-verify.log
+notes.md
 smoke.png
 test.txt
 vet.txt
 
-$ git status --short (must be empty)
-?? docs/evidence/phase-1.1.0/10-smoke.log
-?? docs/evidence/phase-1.1.0/final-verify.log
-?? docs/evidence/phase-1.1.0/smoke.png
-?? docs/evidence/phase-1.1.0/test.txt
-?? docs/evidence/phase-1.1.0/vet.txt
-$ git tag
+$ git status --short   # working tree at run time (empty = clean)
+[end of git status]
+
+$ git tag -n1
 v0.1.0          MyGo Explorer v0.1.0 — Phase 1.1.0 baseline: app module, pinned toolchain, three-platform CI, public repo
