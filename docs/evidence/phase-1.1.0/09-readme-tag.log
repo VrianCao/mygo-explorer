@@ -1,0 +1,20 @@
+# README link + tag evidence (TODO 1.1.9)
+# date: 2026-10-27T16:24:05Z
+
+# local links: markdown targets resolved from repo root
+200 FILE  .github/workflows/ci.yml
+200 FILE  app/go.mod
+200 FILE  app/mygo.json
+200 FILE  docs/DECISIONS.md
+200 FILE  docs/evidence/
+200 FILE  LICENSE
+200 FILE  NOTICE
+200 FILE  PLAN.md
+200 FILE  PREPARATION.md
+200 FILE  research/
+200 FILE  TODO.md
+
+# external links (anonymous curl)
+200  https://mygo.egoist.dev
+200  https://github.com/VrianCao/mygo-explorer/actions/workflows/ci.yml/badge.svg
+200  https://github.com/VrianCao/mygo-explorer/actions/workflows/ci.yml
