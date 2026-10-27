@@ -1,0 +1,109 @@
+# date: 2026-10-27T16:15:43Z
+# 1) full local gate (expected PASS)
+$ cd app && ./scripts/check.sh
+
+==> gofmt -l .
+all Go files are formatted
+gofmt -l . took 0s
+PASS  gofmt -l .
+
+==> go test ./...
+ok  	github.com/VrianCao/mygo-explorer/app	(cached)
+go test ./... took 0s
+PASS  go test ./...
+
+==> go tool mygo vet .
+go tool mygo vet . took 1s
+PASS  go tool mygo vet .
+
+==> go build ./...
+go build ./... took 0s
+PASS  go build ./...
+
+==> go tool mygo build
+
+  MyGo!!!!! v0.7.1  build
+
+  ○ Compiling darwin/arm64
+  ✓ Compiled darwin/arm64  203ms
+  ○ Signing MyGo Explorer.app
+  ✓ Signed MyGo Explorer.app  21ms
+  ○ Creating mygo-explorer-0.1.0-arm64.dmg
+  ✓ Created mygo-explorer-0.1.0-arm64.dmg  4.9s
+
+  ✓ Built MyGo Explorer 0.1.0 in 5.3s
+
+    build/darwin-arm64/
+      MyGo Explorer.app                 9.1 MB
+      mygo-explorer-0.1.0-arm64.dmg     3.0 MB
+
+go tool mygo build took 6s
+PASS  go tool mygo build
+
+==> Summary
+PASS  gofmt -l .
+PASS  go test ./...
+PASS  go tool mygo vet .
+PASS  go build ./...
+PASS  go tool mygo build
+5 passed, 0 failed
+CHECK PASSED
+run1-exit=0
+
+# 2) self-test: deliberately break a test, gate must fail
+$ sed -i '' 's/if a.count != 1/if a.count != 2/' app/main_test.go
+run2-exit=1
+
+$ git checkout -- app/main_test.go   # restore deliberately broken test
+restored, git diff --exit-code exit: 0
+
+# 3) full local gate again (expected PASS)
+$ cd app && ./scripts/check.sh
+
+==> gofmt -l .
+all Go files are formatted
+gofmt -l . took 0s
+PASS  gofmt -l .
+
+==> go test ./...
+ok  	github.com/VrianCao/mygo-explorer/app	(cached)
+go test ./... took 0s
+PASS  go test ./...
+
+==> go tool mygo vet .
+go tool mygo vet . took 0s
+PASS  go tool mygo vet .
+
+==> go build ./...
+go build ./... took 0s
+PASS  go build ./...
+
+==> go tool mygo build
+
+  MyGo!!!!! v0.7.1  build
+
+  ○ Compiling darwin/arm64
+  ✓ Compiled darwin/arm64  217ms
+  ○ Signing MyGo Explorer.app
+  ✓ Signed MyGo Explorer.app  20ms
+  ○ Creating mygo-explorer-0.1.0-arm64.dmg
+  ✓ Created mygo-explorer-0.1.0-arm64.dmg  4.6s
+
+  ✓ Built MyGo Explorer 0.1.0 in 5.1s
+
+    build/darwin-arm64/
+      MyGo Explorer.app                 9.1 MB
+      mygo-explorer-0.1.0-arm64.dmg     3.0 MB
+
+go tool mygo build took 6s
+PASS  go tool mygo build
+
+==> Summary
+PASS  gofmt -l .
+PASS  go test ./...
+PASS  go tool mygo vet .
+PASS  go build ./...
+PASS  go tool mygo build
+5 passed, 0 failed
+CHECK PASSED
+run3-exit=0

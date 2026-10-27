@@ -1,0 +1,82 @@
+# CI evidence — first Actions run (TODO 1.1.7)
+# date: 2026-10-27T16:22:50Z
+
+$ gh run view 40538853325 --json url,status,conclusion,headSha,event
+{"conclusion":"success","event":"push","headSha":"55f172911cccd3e2dc0bc9ee0a27efe457335682","status":"completed","url":"https://github.com/VrianCao/mygo-explorer/actions/runs/40538853325","workflowName":"CI"}
+
+$ gh run view 40538853325 --json jobs | jq '...'
+JOB Windows: status=completed conclusion=success started=2026-10-27T16:13:55Z completed=2026-10-27T16:16:04Z url=https://github.com/VrianCao/mygo-explorer/actions/runs/40538853325/job/122311413993
+JOB macOS: status=completed conclusion=success started=2026-10-27T16:18:56Z completed=2026-10-27T16:20:59Z url=https://github.com/VrianCao/mygo-explorer/actions/runs/40538853325/job/122311414868
+JOB Linux: status=completed conclusion=success started=2026-10-27T16:13:56Z completed=2026-10-27T16:14:59Z url=https://github.com/VrianCao/mygo-explorer/actions/runs/40538853325/job/122311415106
+
+# job steps
+== Windows
+  success	Set up job
+  success	Run actions/checkout@v7
+  success	Run actions/setup-go@v6
+  success	Show toolchain
+  success	Test
+  success	Vet
+  success	Build
+  success	Upload build artifacts and logs
+  success	Post Run actions/setup-go@v6
+  success	Post Run actions/checkout@v7
+  success	Complete job
+== macOS
+  success	Set up job
+  success	Run actions/checkout@v7
+  success	Run actions/setup-go@v6
+  success	Show toolchain
+  success	Test
+  success	Vet
+  success	Build
+  success	Upload build artifacts and logs
+  success	Post Run actions/setup-go@v6
+  success	Post Run actions/checkout@v7
+  success	Complete job
+== Linux
+  success	Set up job
+  success	Run actions/checkout@v7
+  success	Run actions/setup-go@v6
+  success	Show toolchain
+  success	Test
+  success	Vet
+  success	Build
+  success	Upload build artifacts and logs
+  success	Post Run actions/setup-go@v6
+  success	Post Run actions/checkout@v7
+  success	Complete job
+
+$ gh run view 40538853325 --log-failed
+
+# uploaded artifacts
+mygo-explorer-macOS-ARM64	7356115 bytes	https://api.github.com/repos/VrianCao/mygo-explorer/actions/artifacts/12750371655/zip
+mygo-explorer-Linux-X64	12670567 bytes	https://api.github.com/repos/VrianCao/mygo-explorer/actions/artifacts/12749701533/zip
+mygo-explorer-Windows-X64	7687567 bytes	https://api.github.com/repos/VrianCao/mygo-explorer/actions/artifacts/12749686762/zip
+
+# artifact sizes (bytes)
+[{"name":"mygo-explorer-macOS-ARM64","size_in_bytes":7356115},{"name":"mygo-explorer-Linux-X64","size_in_bytes":12670567},{"name":"mygo-explorer-Windows-X64","size_in_bytes":7687567}]
+
+$ gh run download 40538853325 -D /tmp/mge-ci-artifacts
+download-exit=0
+
+# artifact trees (depth 3)
+/tmp/mge-ci-artifacts
+mygo-explorer-Linux-X64
+mygo-explorer-Linux-X64/linux-amd64
+mygo-explorer-Linux-X64/linux-amd64/icon.png
+mygo-explorer-Linux-X64/linux-amd64/install.sh
+mygo-explorer-Linux-X64/linux-amd64/mygo-explorer
+mygo-explorer-Linux-X64/linux-amd64/mygo-explorer_0.1.0_amd64.deb
+mygo-explorer-Linux-X64/linux-amd64/mygo-explorer-0.1.0-linux-amd64.tar.gz
+mygo-explorer-Linux-X64/linux-amd64/mygo-explorer.desktop
+mygo-explorer-Linux-X64/linux-amd64/mygo-explorer.png
+mygo-explorer-macOS-ARM64
+mygo-explorer-macOS-ARM64/darwin-arm64
+mygo-explorer-macOS-ARM64/darwin-arm64/MyGo Explorer.app
+mygo-explorer-macOS-ARM64/darwin-arm64/mygo-explorer-0.1.0-arm64.dmg
+mygo-explorer-Windows-X64
+mygo-explorer-Windows-X64/windows-amd64
+mygo-explorer-Windows-X64/windows-amd64/icon.png
+mygo-explorer-Windows-X64/windows-amd64/MyGo Explorer.exe
+mygo-explorer-Windows-X64/windows-amd64/mygo-explorer-setup-0.1.0-amd64.exe

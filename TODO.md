@@ -111,8 +111,9 @@
 - [x] **1.1.6 创建公开仓库**：`gh repo create <owner>/mygo-explorer --public --source . --remote origin --push`；确认匿名可访问；设置 description/topics（`go`、`native-ui`、`mygo`、`gallery`）。
   → 验收：`gh repo view --json visibility -q .visibility` 输出 `PUBLIC`；无痕浏览器可打开。
   → 证据：`docs/evidence/phase-1.1.0/06-repo.log`（visibility=PUBLIC、anonymous HTML HTTP 200、匿名 API visibility=public/license=MIT、topics=go/native-ui/mygo/gallery、origin 已设）。仓库 <https://github.com/VrianCao/mygo-explorer>。
-- [ ] **1.1.7 CI 骨架**：`.github/workflows/ci.yml`，矩阵 `macos-latest / windows-latest / ubuntu-latest`；步骤：checkout → `actions/setup-go`（读 `app/go.mod`）→ `cd app && go test ./...` → `go tool mygo vet .` → `go tool mygo build`（各 OS 构建本机平台）→ 上传日志/产物。
+- [x] **1.1.7 CI 骨架**：`.github/workflows/ci.yml`，矩阵 `macos-latest / windows-latest / ubuntu-latest`；步骤：checkout → `actions/setup-go`（读 `app/go.mod`）→ `cd app && go test ./...` → `go tool mygo vet .` → `go tool mygo build`（各 OS 构建本机平台）→ 上传日志/产物。
   → 验收：首次 Actions run 三个 job 全绿（附 run URL）。
+  → 证据：run <https://github.com/VrianCao/mygo-explorer/actions/runs/40538853325>（macOS 2m03s / Linux 1m03s / Windows 2m09s 全绿）；`docs/evidence/phase-1.1.0/07-ci.log` 记录各 job 步骤与产物，并下载核验 artifact：macOS `.app`+dmg、Windows `.exe`+NSIS setup、Linux binary+`.deb`+`.tar.gz`。
 - [ ] **1.1.8 本地校验脚本**：`app/scripts/check.sh`（gofmt 检查 + `go test ./...` + `go tool mygo vet .` + `go build ./...` + `go tool mygo build`），输出 PASS/FAIL 汇总。
   → 验收：脚本 exit 0；故意改坏一个测试时 exit ≠ 0（自测一次后还原）。
 - [ ] **1.1.9 初始提交与 tag**：提交初始代码；`git tag v0.1.0`；README 最小版（定位、pins、运行命令、链接 PREPARATION/PLAN/TODO）。
