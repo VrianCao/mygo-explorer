@@ -1,0 +1,73 @@
+name: CI
+
+# Phase 1.1.0 skeleton: the same three-platform matrix that later phases grow
+# (golden screenshots, web build, releases). Every job runs the app module in
+# app/ against the pinned toolchain from app/go.mod.
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "**/*.md"
+      - "docs/**"
+      - LICENSE
+  pull_request:
+    paths-ignore:
+      - "**/*.md"
+      - "docs/**"
+      - LICENSE
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: app
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { name: macOS, os: macos-latest }
+          - { name: Linux, os: ubuntu-latest }
+          - { name: Windows, os: windows-latest }
+    steps:
+      - uses: actions/checkout@v7
+
+      # The toolchain comes from app/go.mod (go 1.27.3), never from the
+      # runner's preinstalled Go.
+      - uses: actions/setup-go@v6
+        with:
+          go-version-file: app/go.mod
+          cache-dependency-path: app/go.sum
+
+      - name: Show toolchain
+        run: go version
+
+      - name: Test
+        run: go test ./...
+
+      # MyGo's vet: Go vet plus the native UI build-lifetime checks.
+      - name: Vet
+        run: go tool mygo vet .
+
+      # Build and package the app for the runner's own platform.
+      - name: Build
+        run: go tool mygo build
+
+      - name: Upload build artifacts and logs
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: mygo-explorer-${{ runner.os }}-${{ runner.arch }}
+          path: |
+            app/build/**
+          if-no-files-found: warn
