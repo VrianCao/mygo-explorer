@@ -29,6 +29,14 @@ export PATH="$HOME/go/bin:$PATH"      # mygo 0.7.1
 - 本机已验证：无窗口测试、真实 Metal 窗口渲染、`CapturePage` 截图、热重载、三平台交叉编译、wasm 构建全部 PASS。
 - 已知限制：本机无 Windows/Linux GUI 运行时（仅交叉编译）；无 Developer ID/公证证书；跨平台真实截图需 CI/真机。
 
+## 许可与署名
+
+- 本项目代码以 **MIT** 许可发布，见 [LICENSE](LICENSE)。
+- 第三方组件（MyGo v0.7.1、purego、go-text/typesetting、golang.org/x/*）的
+  许可证与版权声明见 [NOTICE](NOTICE)；版本由 [`app/go.mod`](app/go.mod) 固定。
+- 复用 MyGo 示例/文档 demo 的源文件会保留 “Adapted from github.com/egoist/mygo (MIT)”
+  文件头（当前 Phase 1.1.0 尚无此类文件）。
+
 ## 下一步
 
 代码托管已确认使用 **Public GitHub repo**（见 [PLAN.md](PLAN.md) §6/§11）。其余开放问题确认后，按 [TODO.md](TODO.md) 从 **Phase 1.1.0** 开始执行（每个 Phase 末尾有必须通过的 GATE）。

@@ -105,8 +105,9 @@
 - [x] **1.1.4 配置 mygo.json**：`name: "MyGo Explorer"`、默认 identifier、`version: "0.1.0"`（发布时改 1.0.0）、`out: "build"`；`go tool mygo build` 产出 `build/darwin-arm64/MyGo Explorer.app`。
   → 验收：产物路径与名称正确；`plutil -p ".../Info.plist"` 的 CFBundleName/Identifier 正确。
   → 证据：`docs/evidence/phase-1.1.0/04-build.log`（5.9s 构建；`.app` 9.1MB + dmg 3.0MB；CFBundleName=`MyGo Explorer`、CFBundleIdentifier=`dev.mygoexplorer.app`、adhoc 签名）。
-- [ ] **1.1.5 仓库卫生文件**：`LICENSE`（MIT）、`NOTICE`/README credits（MyGo 及复用示例的 MIT 归属）、`.gitignore`（`/reference/`、`app/build/`、`app/.mygo/`、`*.p12`、`mygo-update.key`、`docs/evidence/**/*.tmp`、`.DS_Store`）。
+- [x] **1.1.5 仓库卫生文件**：`LICENSE`（MIT）、`NOTICE`/README credits（MyGo 及复用示例的 MIT 归属）、`.gitignore`（`/reference/`、`app/build/`、`app/.mygo/`、`*.p12`、`mygo-update.key`、`docs/evidence/**/*.tmp`、`.DS_Store`）。
   → 验收：`git check-ignore -v` 命中上述敏感/临时路径；无密钥文件被跟踪。
+  → 证据：`docs/evidence/phase-1.1.0/05-hygiene.log`（8/8 路径命中忽略规则；`git ls-files` 无 build/.mygo/密钥/.DS_Store；LICENSE + NOTICE 存在）。
 - [ ] **1.1.6 创建公开仓库**：`gh repo create <owner>/mygo-explorer --public --source . --remote origin --push`；确认匿名可访问；设置 description/topics（`go`、`native-ui`、`mygo`、`gallery`）。
   → 验收：`gh repo view --json visibility -q .visibility` 输出 `PUBLIC`；无痕浏览器可打开。
 - [ ] **1.1.7 CI 骨架**：`.github/workflows/ci.yml`，矩阵 `macos-latest / windows-latest / ubuntu-latest`；步骤：checkout → `actions/setup-go`（读 `app/go.mod`）→ `cd app && go test ./...` → `go tool mygo vet .` → `go tool mygo build`（各 OS 构建本机平台）→ 上传日志/产物。

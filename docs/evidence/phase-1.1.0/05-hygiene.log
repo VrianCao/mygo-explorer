@@ -1,0 +1,17 @@
+# date: 2026-10-27T16:11:22Z
+# --- git check-ignore -v (each path must match a rule) ---
+reference/mygo/go.mod                                  .gitignore:3:/reference/	reference/mygo/go.mod
+app/build/darwin-arm64/MyGo Explorer.app               app/.gitignore:1:/build/	app/build/darwin-arm64/MyGo Explorer.app
+app/.mygo/dev/darwin-arm64/x                           app/.gitignore:2:/.mygo/	app/.mygo/dev/darwin-arm64/x
+certs/signing.p12                                      .gitignore:19:*.p12	certs/signing.p12
+mygo-update.key                                        .gitignore:20:mygo-update.key	mygo-update.key
+docs/evidence/phase-1.1.0/scratch.tmp                  .gitignore:23:docs/evidence/**/*.tmp	docs/evidence/phase-1.1.0/scratch.tmp
+.DS_Store                                              .gitignore:26:.DS_Store	.DS_Store
+app/mygo_windows_amd64.syso                            app/.gitignore:3:mygo_windows_*.syso	app/mygo_windows_amd64.syso
+
+# --- tracked files that must not exist (secrets/build) ---
+none: OK
+
+# --- notice/license presence ---
+-rw-------@ 1 user  staff  1083 Oct 28 00:11 LICENSE
+-rw-------@ 1 user  staff  1862 Oct 28 00:11 NOTICE

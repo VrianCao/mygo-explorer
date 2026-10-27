@@ -13,6 +13,14 @@
 # Future target app build outputs (app/ is created in M1)
 /app/build/
 /app/.mygo/
+mygo_windows_*.syso
+
+# Signing material and secrets — never commit these
+*.p12
+mygo-update.key
+
+# Temporary evidence artifacts
+docs/evidence/**/*.tmp
 
 # OS noise
 .DS_Store
