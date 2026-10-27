@@ -14,17 +14,16 @@
 - 证据目录：[`docs/evidence/phase-1.1.0/`](evidence/phase-1.1.0/)
 - Phase 摘要：见 [`docs/evidence/phase-1.1.0/notes.md` §1](evidence/phase-1.1.0/notes.md)（13 行）
 - 公开仓库：<https://github.com/VrianCao/mygo-explorer>
-- 首次 CI run：<https://github.com/VrianCao/mygo-explorer/actions/runs/40538853325>（三平台全绿）
-- 复核后 CI run：<https://github.com/VrianCao/mygo-explorer/actions/runs/40542634813>（全绿，artifact 含工具链日志）
+- CI run（重建仓库后）：<https://github.com/VrianCao/mygo-explorer/actions/runs/40552337649>（三平台全绿，artifact 含工具链日志）
+- 说明：原仓库的三次 run 随 2026-10-28 删除重建而失效（URL 404），历史记录仍在 `07-ci.log`
 - 发布基线 tag：`v0.1.0`（annotated + SSH 签名，指向 1.1.9 的 README commit；收尾证据在其后的提交中）
 - 独立复核：verifier（只读、fresh context）判定 1.1.1–1.1.10 与 AC1–AC4 **全部 PASS**；
   其指出的证据/流程瑕疵已修复 6 项、记录 2 项决策（详见 notes.md §4）
 - 证据刷新时间：2026-10-28（Asia/Shanghai）
 - 历史重写：2026-10-28 经用户选择方案 A，移除公开历史中的个人邮箱并将 `/Users/<user>` 归一化为 `~/`；
   `main` 与 `v0.1.0` 已强制更新/重签，旧 SHA 不可达（详见 notes.md §5；改动仅 17 文件/64 行）
-- 重写后 CI run：<https://github.com/VrianCao/mygo-explorer/actions/runs/40546689059>（三平台全绿，`e671c3f`）
-- 残留（待用户决定）：GitHub 对 force-push 产生的不可达旧对象有保留期，实测仍可按旧 SHA 匿名读取；
-  如需彻底不可读，选择：① 提交 GitHub Support 清理，或 ② 删除并重建同名公开仓库（会丢失旧 CI run 历史）。
+- 仓库重建：2026-10-28 经用户选择方案 B，删除并同名重建公开仓库（内容 = 已清洗历史 + 重签 tag），
+  用于彻底清除 GitHub 保留期内的旧不可达对象；重建后匿名验证旧 commit API 422 / raw 404 / 旧 run URL 404
 
 ### 用户需执行（约 5 分钟）
 

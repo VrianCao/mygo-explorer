@@ -12,8 +12,9 @@
 4. 应用标识：`MyGo Explorer` / `dev.mygoexplorer.app` / `0.1.0`；本机打包 `.app` + dmg 成功，Info.plist 正确。
 5. 仓库卫生：MIT `LICENSE`、第三方 `NOTICE`、`.gitignore`（reference/build/密钥/临时文件均命中）。
 6. 公开仓库：<https://github.com/VrianCao/mygo-explorer>（PUBLIC，匿名 HTTP 200，topics/description 已设）。
-7. CI 骨架：三平台矩阵全绿（run 40538853325：macOS 2m03s / Linux 1m03s / Windows 2m09s）；
-   复核后修订版 run 40542634813 亦全绿，artifact 内含 `ci/go-version.txt` 等工具链日志。
+7. CI 骨架：三平台矩阵全绿（重建仓库后 run 40552337649：macOS 1m43s / Linux 1m01s / Windows 2m15s）；
+   artifact 内含 `ci/go-version.txt`（go1.27.3）等工具链日志。更早三次 run 属于原仓库，随 2026-10-28
+   删除重建而失效（URL 404），历史记录保留在 `07-ci.log`。
 8. 本地门禁：`app/scripts/check.sh` 5 项 PASS；故意改坏测试时 exit 1，还原后 exit 0。
 9. 发布基线：最小 README + SSH 签名注释 tag `v0.1.0`（已推送），11/11 本地链接、3/3 外链可达。
 10. 冒烟：`go tool mygo dev` 窗口标题 `MyGo Explorer`、几何 480×360（960×720 截图）；SIGINT 干净退出，无残留进程。
@@ -31,7 +32,7 @@
 | `04-build.log` | `go tool mygo build` 5.9s、产物、Info.plist、codesign adhoc |
 | `05-hygiene.log` | `git check-ignore -v` 8/8 命中；无密钥/build 被跟踪 |
 | `06-repo.log` | `gh repo create`、visibility=PUBLIC、匿名 HTTP 200、匿名 API |
-| `07-ci.log` | 两次 CI run（40538853325 首次全绿；40542634813 复核后全绿）步骤、artifact 内容与工具链日志 |
+| `07-ci.log` | CI run 记录：原仓库 run（40538853325 / 40540456159 / 40542634813，URL 随重建失效）+ 重建后 run 40552337649（全绿，artifact 含工具链日志） |
 | `08-check.log` | `check.sh` 三次运行（PASS → 故意失败 exit 1 → 还原 PASS） |
 | `09-readme-tag.log` | README 链接检查（11 本地/3 外链 200）+ annotated/SSH 签名 tag `v0.1.0` 的本地与远端记录 |
 | `10-smoke.log` | `go tool mygo dev` 冒烟：窗口标题/几何（稳定后 480×360）、截图、SIGINT、无残留进程 |
@@ -77,7 +78,7 @@
      再截图（480×360 pt / 960×720 px），并先重置 dev 窗口状态以保证可复现；重跑后 PASS。
    - CI 原先只上传构建产物 → 增加 `Write toolchain and module logs` 步骤，把
      `go version` / `go env` / `go list -m all` / `mygo version` 写入 `build/ci/` 并随 artifact 上传
-     （run 40542634813 已核验：`ci/go-version.txt` 在 macOS/linux/windows 三份 artifact 中均存在）。
+     （重建后 run 40552337649 已核验：`ci/go-version.txt` 在 macOS/linux/windows 三份 artifact 中均存在）。
    - `test.txt` / `vet.txt` 过薄 → 改为 `go test -count=1 -v`（含 TestView PASS）与
      `go tool mygo vet .` + `go vet ./...` 的实际输出。
 8. **tag 时点（B7，决定保留）**：`v0.1.0` 指向 1.1.9 的 README commit `8f8ad51`（重写后 SHA），
@@ -96,8 +97,9 @@
   可联系 GitHub Support 清理），搜索引擎缓存可能滞后；重写前的 SHA 在**当前分支历史中不可达**，
   旧 CI run 仅作历史记录。**补充实测（2026-10-28）**：force-push 后 GitHub 仍会按旧 SHA 提供
   旧 commit/blob 的匿名读取（不可达对象有保留期，具体旧 SHA 不在此记录以免提供指向）；因此
-  “公开历史已干净”成立，但“GitHub 侧彻底不可读”需 Support 清理或删除并重建仓库才能做到——
-  该步待用户决定（见 GATES.md）。
+  “公开历史已干净”成立，但“GitHub 侧彻底不可读”需 Support 清理或删除并重建仓库才能做到。
+  **最终按用户选择执行了删除+同名重建**：新仓库仅含已清洗历史；旧 SHA（API 422 / raw 404）与旧
+  Actions run（404）均不可达。残留：搜索引擎/第三方缓存可能滞后；GitHub 内部备份不受本仓库控制。
 - Windows/Linux 无本地真机运行（仅 CI 构建 + 交叉编译）；真实平台截图在 Phase 1.8.0。
 - 产物未签名/未公证（无 Developer ID），dmg 仅供本地与测试；分发策略见 DECISIONS D13。
 - `main.go` 仍是 `mygo init` 模板骨架（窗口 480×360），Phase 1.2.0 起替换为真实外壳。
@@ -113,7 +115,11 @@
     重写前历史，仅作历史记录（run URL 仍可访问）。改动范围经逐行比对确认：17 个文件 / 64 行，
     全部只涉及上述两类字符串。完成后的核验：force-push `main`（`e671c3f`）、重签 tag（对象
     `d2fd15d` → commit `8f8ad51`）；匿名完整 clone 校验 `git log -S` 对邮箱与 `/Users/<user>` 均为 0；
-    重写后 CI run <https://github.com/VrianCao/mygo-explorer/actions/runs/40546689059> 三平台全绿。
+    重写后 CI run 三平台全绿。**最终处理（用户选择 B）**：GitHub 对不可达旧对象有保留期，force-push
+    后仍可按旧 SHA 匿名读取旧内容；因此 2026-10-28 再次**删除并同名重建**公开仓库，仅推入已清洗的
+    18-commit 历史与重签 tag，并在新仓库重跑 CI（run 40552337649 全绿）。重建后已匿名验证：旧 commit
+    API 返回 422、旧 SHA 的 raw 文件返回 404、旧 Actions run URL 返回 404；当前历史与 tag 均不含个人
+    邮箱/家目录路径。
 
 ## 6. GATE-1 用户复核步骤（约 5 分钟）
 

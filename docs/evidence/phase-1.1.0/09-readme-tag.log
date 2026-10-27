@@ -78,3 +78,9 @@ ENVIRONMENT.md line 29: | Signing identities | 1 codesigning identity: "Apple De
 # raw.githubusercontent.com/<owner>/<repo>/<old-sha>/... 仍返回 HTTP 200 且含旧内容。
 # GitHub 对不可达 commit/blob 有保留期；彻底不可读需 GitHub Support 清理或删除并重建仓库。
 # 为免提供指向，具体旧 SHA 不写入本仓库。
+
+# ---
+# 2026-10-28 仓库删除并同名重建（用户选择方案 B，彻底清除 GitHub 保留的旧不可达对象）
+# 新仓库仅推入已清洗历史；tag v0.1.0 为同一 annotated+SSH 签名对象（d2fd15d → 8f8ad51）。
+# 重建后匿名验证：旧 commit API 422、旧 SHA raw 404、旧 Actions run URL 404；
+# 新仓库 run <https://github.com/VrianCao/mygo-explorer/actions/runs/40552337649> 三平台全绿。

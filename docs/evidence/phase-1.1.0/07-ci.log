@@ -1,5 +1,7 @@
 # NOTE（2026-10-28 历史重写）：本文件产生于公开仓库历史重写之前，其中的 headSha 指向重写前
-# 的提交（现不可达）；run URL 仍可匿名访问。重写后的新 CI run 记录见文件末尾。
+# 的提交（现不可达）；run URL 仍可匿名访问。重写后的新 CI run 记录见文件末尾。# 另：原仓库于 2026-10-28 被删除并同名重建，本文件前部记录的原仓库 run URL 现返回 404；
+# 重建后新仓库的 run 记录见文件末尾。
+
 
 # CI evidence — first Actions run (TODO 1.1.7)
 # date: 2026-10-27T16:22:50Z
@@ -155,3 +157,17 @@ $ gh api .../runs/40546689059/artifacts
 mygo-explorer-Windows-X64 7688524 bytes
 mygo-explorer-macOS-ARM64 7357693 bytes
 mygo-explorer-Linux-X64 12672003 bytes
+
+# ---
+# 重建仓库后的 CI run（2026-10-28，删除并同名重建后仅含已清洗历史）
+# date: 2026-10-27T17:40:42Z
+$ gh run view 40552337649 --json url,conclusion,headSha,jobs
+url=https://github.com/VrianCao/mygo-explorer/actions/runs/40552337649 conclusion=success headSha=0aa87c2
+JOB Linux: success 2026-10-27T17:37:29Z → 2026-10-27T17:38:30Z
+JOB Windows: success 2026-10-27T17:37:29Z → 2026-10-27T17:39:44Z
+JOB macOS: success 2026-10-27T17:37:29Z → 2026-10-27T17:39:12Z
+
+$ gh api .../runs/40552337649/artifacts
+mygo-explorer-Windows-X64 7688198 bytes
+mygo-explorer-Linux-X64 12671838 bytes
+mygo-explorer-macOS-ARM64 7357192 bytes
