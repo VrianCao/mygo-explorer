@@ -1,7 +1,7 @@
-# Phase 1.1.0 acceptance verification (after 2026-10-28 privacy history rewrite)
-# date: 2026-10-27T17:04:59Z
-# HEAD at run time: 7077f84 docs(evidence): verify scrubbed history, re-signed tag and post-rewrite CI
-# note: CI runs whose headSha is not in the current history predate the rewrite.
+# Phase 1.1.0 acceptance verification (repository re-created 2026-10-28 after privacy purge)
+# date: 2026-10-27T17:41:00Z
+# HEAD at run time: 1f00c5d docs(evidence): update references after repository re-creation (privacy purge)
+# note: the repository was deleted and re-created on 2026-10-28; only scrubbed history was pushed.
 
 ## AC1: app module builds, runs, tests pass
 $ cd app && ./scripts/check.sh
@@ -13,11 +13,11 @@ PASS  gofmt -l .
 
 ==> go test ./...
 ok  	github.com/VrianCao/mygo-explorer/app	(cached)
-go test ./... took 0s
+go test ./... took 1s
 PASS  go test ./...
 
 ==> go tool mygo vet .
-go tool mygo vet . took 0s
+go tool mygo vet . took 2s
 PASS  go tool mygo vet .
 
 ==> go build ./...
@@ -29,19 +29,19 @@ PASS  go build ./...
   MyGo!!!!! v0.7.1  build
 
   ○ Compiling darwin/arm64
-  ✓ Compiled darwin/arm64  241ms
+  ✓ Compiled darwin/arm64  699ms
   ○ Signing MyGo Explorer.app
-  ✓ Signed MyGo Explorer.app  19ms
+  ✓ Signed MyGo Explorer.app  47ms
   ○ Creating mygo-explorer-0.1.0-arm64.dmg
-  ✓ Created mygo-explorer-0.1.0-arm64.dmg  4.6s
+  ✓ Created mygo-explorer-0.1.0-arm64.dmg  6.4s
 
-  ✓ Built MyGo Explorer 0.1.0 in 5.0s
+  ✓ Built MyGo Explorer 0.1.0 in 7.5s
 
     build/darwin-arm64/
       MyGo Explorer.app                 9.1 MB
       mygo-explorer-0.1.0-arm64.dmg     3.0 MB
 
-go tool mygo build took 6s
+go tool mygo build took 8s
 PASS  go tool mygo build
 
 ==> Summary
@@ -55,29 +55,29 @@ CHECK PASSED
 (check.sh exit=0)
 
 ## AC2: public repo accessible, initial commit + CI green
-$ gh repo view VrianCao/mygo-explorer --json visibility,url
-{"url":"https://github.com/VrianCao/mygo-explorer","visibility":"PUBLIC"}
+$ gh repo view VrianCao/mygo-explorer --json visibility,url,description
+{"description":"Native desktop gallery built with MyGo: every UI element and control, side by side on macOS, Windows and Linux.","url":"https://github.com/VrianCao/mygo-explorer","visibility":"PUBLIC"}
 
 $ curl anonymous https://github.com/VrianCao/mygo-explorer
 HTTP 200
 
 $ git log --oneline | wc -l
-      17
+      20
 $ git log --oneline -1
-7077f84 docs(evidence): verify scrubbed history, re-signed tag and post-rewrite CI
+1f00c5d docs(evidence): update references after repository re-creation (privacy purge)
 
 $ gh run list --limit 5 --json databaseId,headSha,status,conclusion,url
-[{"conclusion":"success","databaseId":40546689059,"headSha":"e671c3ff78f40f2f0841e1c3d337126850071a49","status":"completed","url":"https://github.com/VrianCao/mygo-explorer/actions/runs/40546689059"},{"conclusion":"success","databaseId":40546446164,"headSha":"189a4d502dbce3e8843cfe13f91aa4e03e48b7db","status":"completed","url":"https://github.com/VrianCao/mygo-explorer/actions/runs/40546446164"},{"conclusion":"success","databaseId":40542634813,"headSha":"807d885d16935078868137313a072d234bad3be5","status":"completed","url":"https://github.com/VrianCao/mygo-explorer/actions/runs/40542634813"},{"conclusion":"success","databaseId":40540456159,"headSha":"b06dc034c643e4ee472a7e1933097bf8fd8101df","status":"completed","url":"https://github.com/VrianCao/mygo-explorer/actions/runs/40540456159"},{"conclusion":"success","databaseId":40538853325,"headSha":"55f172911cccd3e2dc0bc9ee0a27efe457335682","status":"completed","url":"https://github.com/VrianCao/mygo-explorer/actions/runs/40538853325"}]
+[{"conclusion":"success","databaseId":40552337649,"headSha":"0aa87c2785c12003825e87c98dbb1066a7fbe225","status":"completed","url":"https://github.com/VrianCao/mygo-explorer/actions/runs/40552337649"}]
 
-$ gh run view 40546689059 --json conclusion,jobs
+$ gh run view 40552337649 --json conclusion,jobs
 success
+Linux: success
 Windows: success
 macOS: success
-Linux: success
 
 $ git ls-remote origin
-7077f84df6a6fc65738ce3c929dfcc09ce019158	HEAD
-7077f84df6a6fc65738ce3c929dfcc09ce019158	refs/heads/main
+1f00c5d2d2117d7f6bfb0cc031a0acb1071c1b7d	HEAD
+1f00c5d2d2117d7f6bfb0cc031a0acb1071c1b7d	refs/heads/main
 d2fd15d67a0585a4fed37510b68bf42e66bc47de	refs/tags/v0.1.0
 8f8ad51161b9d2ee6f709061eda4fd9138dd5901	refs/tags/v0.1.0^{}
 
@@ -96,7 +96,7 @@ $ ls -l docs/DECISIONS.md LICENSE NOTICE README.md .gitignore app/go.mod app/myg
 -rw-------@ 1 user  staff   654 Oct 28 00:36 .gitignore
 -rw-r--r--@ 1 user  staff   364 Oct 28 00:09 app/go.mod
 -rw-r--r--@ 1 user  staff   110 Oct 28 00:10 app/mygo.json
--rw-------@ 1 user  staff  5745 Oct 28 01:01 docs/DECISIONS.md
+-rw-------@ 1 user  staff  5859 Oct 28 01:40 docs/DECISIONS.md
 -rw-------@ 1 user  staff  1083 Oct 28 00:11 LICENSE
 -rw-------@ 1 user  staff  1862 Oct 28 00:11 NOTICE
 -rw-------@ 1 user  staff  4599 Oct 28 00:23 README.md
@@ -118,11 +118,13 @@ smoke.png
 test.txt
 vet.txt
 
-## privacy scrub verification (post-rewrite)
+## privacy purge verification
 personal e-mail in any commit (git log -S): 0
 home-path literal in any commit (git log -S): 0
 personal e-mail in HEAD tree (git grep): 0
 home-path literal in HEAD tree (git grep): 0
+anonymous raw of the re-created repo: e-mail hits=0; home-path hits=0
+old unreachable objects: not resolvable (old SHA not recorded in the repo)
 
 $ git status --short   # working tree at run time (empty = clean)
 [end of git status]
