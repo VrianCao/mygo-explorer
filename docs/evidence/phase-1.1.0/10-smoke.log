@@ -1,0 +1,32 @@
+# smoke run (TODO 1.1.10)
+# date: 2026-10-27T16:24:53Z
+# host: 27.0.1 arm64
+
+$ cd app && go tool mygo dev
+# started go tool mygo dev (pid 24792)
+
+  MyGo!!!!! v0.7.1  dev
+
+  ○ Building MyGo Explorer Dev
+  ✓ Built MyGo Explorer Dev  891ms
+
+  ➜ Watching for changes
+
+
+# on-screen windows matching 'MyGo Explorer' (id owner title x y w h)
+39813	MyGo Explorer Dev	MyGo Explorer	x=363 y=320 w=320 h=267
+# window id=39813 title='MyGo Explorer'
+# captured window 39813 to docs/evidence/phase-1.1.0/smoke.png
+# smoke.png: 54285 bytes
+  pixelWidth: 960
+  pixelHeight: 720
+
+$ kill -INT 24792   # equivalent to Ctrl+C
+  ○ Stopping MyGo Explorer Dev
+# go tool mygo dev exit status: 0
+
+$ pgrep -fl 'MyGo Explorer|mygo dev|go tool mygo'
+none: no MyGo Explorer / mygo dev / go tool mygo process left
+
+PASS window title is 'MyGo Explorer'
+SMOKE PASSED

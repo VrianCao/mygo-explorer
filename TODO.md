@@ -120,8 +120,9 @@
 - [x] **1.1.9 初始提交与 tag**：提交初始代码；`git tag v0.1.0`；README 最小版（定位、pins、运行命令、链接 PREPARATION/PLAN/TODO）。
   → 验收：`git log --oneline -1` 与 `git tag` 可见；README 内链接 200。
   → 证据：README 最小版（定位/pins/运行命令/CI/限制/文档索引）；`git tag -a v0.1.0` 并推送；链接验证见 `docs/evidence/phase-1.1.0/09-readme-tag.log`（11/11 本地链接存在、3/3 外链 HTTP 200）。
-- [ ] **1.1.10 骨架冒烟运行**：`cd app && go tool mygo dev` 启动窗口 `MyGo Explorer`，标题正确，Ctrl+C 干净退出；截图存 `docs/evidence/phase-1.1.0/smoke.png`；确认无残留进程。
+- [x] **1.1.10 骨架冒烟运行**：`cd app && go tool mygo dev` 启动窗口 `MyGo Explorer`，标题正确，Ctrl+C 干净退出；截图存 `docs/evidence/phase-1.1.0/smoke.png`；确认无残留进程。
   → 验收：截图存在；`pgrep -fl "MyGo|mygo dev"` 无结果。
+  → 证据：`docs/evidence/phase-1.1.0/10-smoke.log` + `smoke.png`（960×720 真实窗口，标题 `MyGo Explorer`；SIGINT 退出码 0；`pgrep -fl 'MyGo Explorer|mygo dev|go tool mygo'` 无结果）。
 
 **Phase 验收条件（AC）**
 

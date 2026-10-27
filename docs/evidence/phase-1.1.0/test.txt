@@ -1,0 +1,2 @@
+ok  	github.com/VrianCao/mygo-explorer/app	(cached)
+test-exit=0

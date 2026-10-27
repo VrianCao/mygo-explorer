@@ -1,0 +1,95 @@
+# Phase 1.1.0 — 基线锁定与公开仓库初始化 · 证据与说明
+
+- 日期：2026-10-27 ～ 2026-10-28（Asia/Shanghai），执行者：执行 Agent（Lead）
+- 范围：[TODO.md](../../TODO.md) Phase 1.1.0 的 1.1.1–1.1.10
+- 结论：**10/10 Checkbox 达成，等待用户 GATE-1 复核**（未进入 Phase 1.2.0）
+
+## 1. Phase 摘要（≤ 15 行，供 GATE-1 使用）
+
+1. 决策落库：`docs/DECISIONS.md`（D1–D14，含日期/来源/可改性；GATE-1 待确认清单）。
+2. 应用骨架：`app/`（`mygo init -template native`），`main.go`/`main_test.go`/`go.mod`/`mygo.json`/icon/skill 齐全。
+3. 版本锁定：Go `1.27.3` + `tool github.com/egoist/mygo/cmd/mygo` + `require github.com/egoist/mygo v0.7.1`；`go mod tidy` 无 diff。
+4. 应用标识：`MyGo Explorer` / `dev.mygoexplorer.app` / `0.1.0`；本机打包 `.app` + dmg 成功，Info.plist 正确。
+5. 仓库卫生：MIT `LICENSE`、第三方 `NOTICE`、`.gitignore`（reference/build/密钥/临时文件均命中）。
+6. 公开仓库：<https://github.com/VrianCao/mygo-explorer>（PUBLIC，匿名 HTTP 200，topics/description 已设）。
+7. CI 骨架：三平台矩阵（macOS 2m03s / Linux 1m03s / Windows 2m09s）全绿，产物 artifact 已下载核验。
+8. 本地门禁：`app/scripts/check.sh` 5 项 PASS；故意改坏测试时 exit 1，还原后 exit 0。
+9. 发布基线：最小 README + 注释 tag `v0.1.0`（已推送），11/11 本地链接、3/3 外链可达。
+10. 冒烟：`go tool mygo dev` 窗口标题 `MyGo Explorer`，截图 `smoke.png`；SIGINT 干净退出，无残留进程。
+11. 遗留：Windows/Linux 仅 CI 构建（无真机运行）；产物未签名；图标为占位图。
+12. 待用户：执行 GATE-1（见 §6），确认名称/identifier/module/公开仓库/MIT/en+zh。
+
+## 2. 证据索引
+
+| 文件 | 内容 |
+|---|---|
+| `01-init.log` | `mygo init` 命令与输出（含 flag 顺序说明） |
+| `02-scaffold.log` | 生成文件清单、`go version`=go1.27.3、`go test` ok |
+| `03-pin.log` | `go mod tidy` 无 diff、`go list -m`、`go tool mygo version`、GOROOT |
+| `04-build.log` | `go tool mygo build` 5.9s、产物、Info.plist、codesign adhoc |
+| `05-hygiene.log` | `git check-ignore -v` 8/8 命中；无密钥/build 被跟踪 |
+| `06-repo.log` | `gh repo create`、visibility=PUBLIC、匿名 HTTP 200、匿名 API |
+| `07-ci.log` | 首次 CI run 三 job 全绿、步骤、artifact 下载与产物清单 |
+| `08-check.log` | `check.sh` 三次运行（PASS → 故意失败 exit 1 → 还原 PASS） |
+| `09-readme-tag.log` | README 链接检查（11 本地/3 外链 200）、tag |
+| `10-smoke.log` | `go tool mygo dev` 冒烟：窗口标题、截图、SIGINT、无残留进程 |
+| `smoke.png` | 960×720 真实窗口截图（标题 `MyGo Explorer`，深色主题） |
+| `test.txt` / `vet.txt` | `go test ./...` / `go tool mygo vet .` 输出（exit 0） |
+| `final-verify.log` | Phase AC1–AC4 的最终命令与结果 |
+| `commands.log` | 关键命令清单（便于复现） |
+
+## 3. 验收对照（TODO Phase 1.1.0 AC）
+
+| AC | 判定 | 证据 |
+|---|---|---|
+| 1. `app/` 可构建、可运行、测试通过 | PASS | `final-verify.log` CHECK PASSED；`10-smoke.log`；`test.txt` |
+| 2. 公开仓库可访问，初始 commit + CI 绿 | PASS | `06-repo.log`（PUBLIC/HTTP 200）；`07-ci.log`（run 40538853325 三 job success） |
+| 3. 版本 pin 与调研一致（go1.27.3 / mygo v0.7.1） | PASS | `03-pin.log`、`final-verify.log` |
+| 4. 决策、证据、README、LICENSE、.gitignore 齐备 | PASS | `final-verify.log` 文件清单；`05-hygiene.log` |
+
+## 4. 偏差与如实记录
+
+1. **TODO 1.1.2 的命令顺序**：原文 `mygo init -template native app -name ...` 会被 Go flag 解析拒绝
+   （首个位置参数后的 flags 被当作参数 → `error: missing project directory`）。实际命令把目录放最后：
+   `mygo init -template native -name "MyGo Explorer" -module github.com/VrianCao/mygo-explorer/app app`。
+   见 `01-init.log`。TODO 原文未改（以 TODO 为准），此偏差在此记录。
+2. **`go build ./...` 产物**：直接在 `app/` 运行会在源码旁生成名为 `app` 的二进制；`check.sh` 已把
+   `-o` 指向临时目录，仓库中无该产物（曾于本地生成一次并删除，未提交）。
+3. **提交粒度**：commit `b06dc03`（1.1.7 证据）在等待 CI 期间用 `git add -A` 一并纳入了 1.1.8 的
+   `app/scripts/check.sh` 与 `08-check.log`；随后 `3543756` 仅含 1.1.8 的 TODO 勾选。未重写已推送的
+   公开历史（避免 force-push），如实记录于此。功能与验收不受影响。
+4. **宿主 Go 版本**：本机 host Go 为 `go1.26.4`，模块内由 `GOTOOLCHAIN=auto` 选用 `go1.27.3`
+   （`GOROOT=.../toolchain@v0.0.1-go1.27.3.darwin-arm64`），未安装第二套 Go。
+5. **默认决策**：`VrianCao`（仓库 owner）、`github.com/VrianCao/mygo-explorer/app`（module）、
+   `dev.mygoexplorer.app`（identifier）均为默认值，待 GATE-1 确认（见 `docs/DECISIONS.md` §4）。
+6. **CI 平台**：macOS runner 为 arm64、Linux/Windows 为 x64；构建产物为各 runner 本机平台。
+
+## 5. 遗留问题 / 风险
+
+- Windows/Linux 无本地真机运行（仅 CI 构建 + 交叉编译）；真实平台截图在 Phase 1.8.0。
+- 产物未签名/未公证（无 Developer ID），dmg 仅供本地与测试；分发策略见 DECISIONS D13。
+- `main.go` 仍是 `mygo init` 模板骨架（窗口 480×360），Phase 1.2.0 起替换为真实外壳。
+- 占位图标 Phase 1.10.1 替换。
+- CI `paths-ignore` 跳过了纯文档提交（`docs/**`、`**/*.md`、`LICENSE`），这是有意设计。
+
+## 6. GATE-1 用户复核步骤（约 5 分钟）
+
+1. 打开 <https://github.com/VrianCao/mygo-explorer>（未登录/无痕窗口），确认可访问、README 可读、
+   三平台 CI badge 为绿。
+2. 本地执行：
+   ```sh
+   cd app
+   go tool mygo dev
+   ```
+   确认窗口标题为 `MyGo Explorer`；关闭窗口或 Ctrl+C 后 `pgrep -fl "MyGo Explorer|mygo dev"` 无结果。
+3. 查看 `docs/DECISIONS.md`，确认名称、identifier `dev.mygoexplorer.app`、module
+   `github.com/VrianCao/mygo-explorer/app`、公开仓库、MIT、en+zh 均无异议。
+4. 回复「GATE-1 PASS」（或指出需修改项）。**未通过前不进入 Phase 1.2.0。**
+
+可复核的自动化部分：
+```sh
+cd app && ./scripts/check.sh                       # 期望 CHECK PASSED
+cd app && go test ./... && go tool mygo vet .      # 期望 exit 0
+gh repo view VrianCao/mygo-explorer --json visibility -q .visibility   # 期望 PUBLIC
+git tag -n1                                        # 期望 v0.1.0
+```
