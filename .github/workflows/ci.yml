@@ -32,6 +32,9 @@ jobs:
     defaults:
       run:
         working-directory: app
+        # Git Bash on every runner: the same commands and redirects on
+        # macOS, Linux and Windows.
+        shell: bash
     strategy:
       fail-fast: false
       matrix:
@@ -62,6 +65,18 @@ jobs:
       # Build and package the app for the runner's own platform.
       - name: Build
         run: go tool mygo build
+
+      # Logs beyond the step output: the toolchain and modules each runner
+      # actually resolved, kept next to the build artifacts.
+      - name: Write toolchain and module logs
+        if: always()
+        run: |
+          mkdir -p build/ci
+          go version > build/ci/go-version.txt 2>&1 || true
+          go env > build/ci/go-env.txt 2>&1 || true
+          go list -m all > build/ci/go-modules.txt 2>&1 || true
+          go tool mygo version > build/ci/mygo-version.txt 2>&1 || true
+          ls -la build/ci
 
       - name: Upload build artifacts and logs
         if: always()

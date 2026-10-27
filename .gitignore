@@ -10,7 +10,7 @@
 /prep/probe-capture/build/
 /prep/probe-capture/.mygo/
 
-# Future target app build outputs (app/ is created in M1)
+# Target app build outputs (go tool mygo build / dev)
 /app/build/
 /app/.mygo/
 mygo_windows_*.syso
