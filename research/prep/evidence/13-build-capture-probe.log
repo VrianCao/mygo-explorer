@@ -1,0 +1,19 @@
+$ go tool mygo build -platform darwin/arm64 -skip-dmg
+
+  MyGo!!!!! v0.7.1  build
+
+  ○ Compiling darwin/arm64
+  ✓ Compiled darwin/arm64  225ms
+  ○ Signing probe-capture.app
+  ✓ Signed probe-capture.app  20ms
+
+  ✓ Built probe-capture 0.1.0 in 429ms
+
+    build/darwin-arm64/
+      probe-capture.app     9.1 MB
+
+exit=0
+total 0
+drwxr-xr-x@ 3 user  staff  96 Oct 27 20:02 .
+drwxr-xr-x@ 3 user  staff  96 Oct 27 20:02 ..
+drwxr-xr-x@ 3 user  staff  96 Oct 27 20:02 probe-capture.app

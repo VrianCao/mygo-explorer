@@ -1,0 +1,45 @@
+$ time go tool mygo build
+
+  MyGo!!!!! v0.7.1  build
+
+  ○ Compiling darwin/arm64
+  ✓ Compiled darwin/arm64  3.5s
+  ○ Signing probe-native.app
+  ✓ Signed probe-native.app  20ms
+  ○ Creating probe-native-0.1.0-arm64.dmg
+  ✓ Created probe-native-0.1.0-arm64.dmg  5.1s
+
+  ✓ Built probe-native 0.1.0 in 8.9s
+
+    build/darwin-arm64/
+      probe-native.app                 9.1 MB
+      probe-native-0.1.0-arm64.dmg     3.0 MB
+
+
+real	0m9.134s
+user	0m24.103s
+sys	0m5.172s
+exit=0
+--- artifact tree ---
+build/darwin-arm64/probe-native-0.1.0-arm64.dmg
+build/darwin-arm64/probe-native.app/Contents/_CodeSignature/CodeResources
+build/darwin-arm64/probe-native.app/Contents/Info.plist
+build/darwin-arm64/probe-native.app/Contents/MacOS/probe-native
+build/darwin-arm64/probe-native.app/Contents/PkgInfo
+build/darwin-arm64/probe-native.app/Contents/Resources/AppIcon.icns
+build/darwin-arm64/probe-native.app/Contents/Resources/icon.png
+--- sizes ---
+4.0K	build/darwin-arm64/probe-native.app/Contents/_CodeSignature
+4.0K	build/darwin-arm64/probe-native.app/Contents/_CodeSignature/CodeResources
+4.0K	build/darwin-arm64/probe-native.app/Contents/Info.plist
+4.0K	build/darwin-arm64/probe-native.app/Contents/PkgInfo
+ 88K	build/darwin-arm64/probe-native.app/Contents/Resources/icon.png
+188K	build/darwin-arm64/probe-native.app/Contents/Resources/AppIcon.icns
+276K	build/darwin-arm64/probe-native.app/Contents/Resources
+3.0M	build/darwin-arm64/probe-native-0.1.0-arm64.dmg
+8.8M	build/darwin-arm64/probe-native.app/Contents/MacOS
+8.8M	build/darwin-arm64/probe-native.app/Contents/MacOS/probe-native
+9.1M	build/darwin-arm64/probe-native.app
+9.1M	build/darwin-arm64/probe-native.app/Contents
+ 12M	build
+ 12M	build/darwin-arm64

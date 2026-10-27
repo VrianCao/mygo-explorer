@@ -1,0 +1,44 @@
+$ go tool mygo build -platform darwin/universal -skip-dmg -o build-universal
+
+  MyGo!!!!! v0.7.1  build
+
+  ○ Compiling darwin/arm64
+  ✓ Compiled darwin/arm64  190ms
+  ○ Compiling darwin/amd64
+  ✓ Compiled darwin/amd64  3.4s
+  ○ Signing probe-native.app
+  ✓ Signed probe-native.app  29ms
+
+  ✓ Built probe-native 0.1.0 in 3.8s
+
+    build-universal/darwin-universal/
+      probe-native.app    18.8 MB
+
+
+real	0m3.892s
+user	0m21.915s
+sys	0m5.542s
+exit=0
+--- universal artifacts ---
+build-universal/darwin-universal/probe-native.app/Contents/_CodeSignature/CodeResources
+build-universal/darwin-universal/probe-native.app/Contents/Info.plist
+build-universal/darwin-universal/probe-native.app/Contents/MacOS/probe-native
+build-universal/darwin-universal/probe-native.app/Contents/PkgInfo
+build-universal/darwin-universal/probe-native.app/Contents/Resources/AppIcon.icns
+build-universal/darwin-universal/probe-native.app/Contents/Resources/icon.png
+--- lipo ---
+Architectures in the fat file: build-universal/darwin-universal/probe-native.app/Contents/MacOS/probe-native are: arm64 x86_64 
+--- codesign ---
+Executable=~/Code_New/MyGoExplorer/prep/probe-native/build-universal/darwin-universal/probe-native.app/Contents/MacOS/probe-native
+Identifier=com.example.probenative
+Format=app bundle with Mach-O universal (x86_64 arm64)
+CodeDirectory v=20400 size=18256 flags=0x2(adhoc) hashes=564+3 location=embedded
+Signature=adhoc
+Info.plist entries=13
+TeamIdentifier=not set
+Sealed Resources version=2 rules=13 files=2
+Internal requirements count=0 size=12
+Total signatures=1
+Chosen signature=1
+--- sizes ---
+ 19M	build-universal/darwin-universal/probe-native.app

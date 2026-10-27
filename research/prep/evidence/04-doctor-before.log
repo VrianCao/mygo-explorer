@@ -1,0 +1,9 @@
+$ mygo doctor
+[32m✓[0m go         go version go1.26.4 darwin/arm64
+[32m✓[0m bun        1.3.14
+[32m✓[0m macOS      27.0.1 (WKWebView; macOS 12 or later is required)
+- makensis   not found (optional: the Windows installer, https://nsis.sourceforge.io)
+- osslsign   not found (optional: signing Windows apps here (osslsigncode))
+[32m✓[0m gh         /opt/homebrew/bin/gh
+- codesign   not found (optional: a Developer ID to sign apps for other Macs)
+exit=0

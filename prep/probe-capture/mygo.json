@@ -1,0 +1,6 @@
+{
+  "name": "probe-capture",
+  "identifier": "com.example.probecapture",
+  "version": "0.1.0",
+  "out": "build"
+}

@@ -1,0 +1,21 @@
+=== RUN   TestCapture
+    capture_test.go:69: probe-render-scale1.png: 480x360 px, 9878 bytes, sha256=5734e331425e95a6
+    capture_test.go:70: ui.Render 480x360 scale=1: 18.849333ms
+    capture_test.go:75: probe-render-scale2.png: 960x720 px, 26490 bytes, sha256=c0b4746cd380fa45
+    capture_test.go:76: ui.Render 480x360 scale=2: 3.115042ms
+    capture_test.go:82: probe-render-again.png: 480x360 px, 9878 bytes, sha256=5734e331425e95a6
+    capture_test.go:83: ui.Render again: 529.584µs
+    capture_test.go:96: ui.Render deterministic: two renders byte-identical (9878 bytes)
+    capture_test.go:108: probe-tester-image.png: 480x360 px, 9878 bytes, sha256=5734e331425e95a6
+    capture_test.go:109: ui.NewTester+Frame+Image: 481.209µs
+    capture_test.go:118: probe-tester-clicked.png: 480x360 px, 9691 bytes, sha256=88b2d1d108e0be1f
+    capture_test.go:119: tester click + image: 3.294916ms (count=4, frames>1)
+    capture_test.go:128: non-uniform pixels in ui.Render output: 11835
+    capture_test.go:138: probe-tester-light.png: 480x360 px, 9691 bytes, sha256=88b2d1d108e0be1f
+    capture_test.go:141: probe-tester-dark.png: 480x360 px, 9788 bytes, sha256=5bbf178e0a74637f
+    capture_test.go:150: probe-tester-light-again.png: 480x360 px, 9691 bytes, sha256=88b2d1d108e0be1f
+    capture_test.go:157: theme snapshots deterministic: light 9691 bytes, dark 9788 bytes, sha256 light=88b2d1d108e0be1f dark=5bbf178e0a74637f
+PROBE_CAPTURE_OK evidence=/tmp/gpu0-ev
+--- PASS: TestCapture (0.05s)
+PASS
+ok  	probe-native	0.514s

@@ -1,0 +1,6 @@
+{
+  "name": "probe-native",
+  "identifier": "com.example.probenative",
+  "version": "0.1.0",
+  "out": "build"
+}

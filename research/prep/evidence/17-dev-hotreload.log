@@ -1,0 +1,14 @@
+=== 2026-10-27T12:03:57Z mygo dev start ===
+
+  MyGo!!!!! v0.7.1  dev
+
+  ○ Building probe-native Dev
+  ✓ Built probe-native Dev  1.4s
+
+  ➜ Watching for changes
+
+  ○ Rebuilding probe-native Dev (main.go changed)
+  ✓ Rebuilt probe-native Dev (main.go changed)  418ms
+  ○ Stopping probe-native Dev
+dev exit=0
+=== 2026-10-27T12:04:50Z dev end ===

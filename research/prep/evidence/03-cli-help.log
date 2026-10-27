@@ -1,0 +1,99 @@
+$ ~/go/bin/mygo version
+mygo 0.7.1
+
+$ mygo --help
+mygo is the tool for MyGo desktop applications.
+
+Usage:
+
+	mygo <command> [arguments]
+
+Commands:
+
+	init [dir]           create a new project (Go + TypeScript frontend built with Vite)
+	install-skills [dir] install or update the bundled MyGo agent skills
+	vet [dir]           run Go vet and check native UI build lifetimes
+	migrate-ui [dir]     preview or apply the checked UI value API migration
+	generate             write the typed TypeScript client for bound Go services,
+	                     and the accessors of the app's catalogs of messages
+	i18n check [dir]     check the app's catalogs of messages
+	dev                  run a development build with live reload
+	build                build production apps (a .app and a .dmg on macOS)
+	keygen               create the key pair that signs updates
+	doctor               check that the development environment is ready
+	version              print the MyGo version
+
+Run "mygo <command> -h" for the flags of a command.
+
+$ mygo init --help
+Usage: mygo init [flags] <dir>
+
+Creates a new MyGo project. The web template has a TypeScript frontend built
+with Vite: Bun installs its dependencies, the mygo-cli package among them,
+and runs its scripts, bun run dev and bun run build. The native template
+shows a user interface MyGo draws itself, written in Go with package ui:
+the module has the CLI as a tool, for go tool mygo dev and go tool mygo
+build.
+
+Flags:
+  -module string
+    	Go module path (default: directory name)
+  -mygo string
+    	path to a local checkout of MyGo to use via a replace directive
+  -name string
+    	application name (default: directory name)
+  -template string
+    	the project: web (a TypeScript frontend) or native (native UI in Go) (default "web")
+
+$ mygo build --help
+Usage: mygo build [flags] [dir]
+
+Builds a production app for each platform. It runs buildCommand from
+mygo.json, then compiles the app with the frontendDist files embedded, served
+at mygo://localhost/. macOS gets a signed .app bundle and a
+"<slug>-<version>-<arch>.dmg" disk image (slug in mygo.json, by default
+the name in lower case), without the arch for darwin/universal, whose
+window invites dragging the app to Applications; other platforms get an
+executable. Linux also gets a Debian
+package, and the app as <slug>-<version>-linux-<arch>.tar.gz with
+install.sh, which installs it for the user in ~/.local, where it can update
+itself. The contents of the
+resources directory and the resources listed in mygo.json are copied into
+the bundle's Contents/Resources, or next to the executable, and the programs
+among them are signed with the app. Directories of resources named after a
+platform, such as resources/darwin or resources/linux-amd64, only ship with
+that platform's apps; darwin/universal combines darwin-arm64 and
+darwin-amd64. MyGo needs no cgo, so any platform can be compiled from any
+machine; signing and disk images need macOS. Windows also gets
+"<slug>-setup-<version>-<arch>.exe", made with NSIS, which mygo build
+downloads on Windows when it is not installed.
+
+Set macos.signingIdentity in mygo.json (or -sign) to a Developer ID to ship
+outside the Mac App Store, and macos.notarize to notarize the disk image.
+
+With updates in mygo.json and the key of mygo keygen in
+MYGO_UPDATER_PRIVATE_KEY, each platform also gets a signed update archive,
+delta updates from the last versions published (updates.deltas), and
+update-<platform>.json: publish them where updates point to.
+
+The platform web (or js/wasm) builds an app of native UI for browsers into
+<out>/web: index.html, which loads the app, Go's wasm_exec.js and the app's
+WebAssembly, named by its content: a static site, to serve from anywhere.
+
+Flags:
+  -debug
+    	keep development features such as the web inspector
+  -o string
+    	output directory (default: out from mygo.json or dist)
+  -platform string
+    	comma separated GOOS/GOARCH targets, e.g. darwin/universal,linux/amd64,windows/amd64, or web for browsers (default "darwin/arm64")
+  -sign string
+    	macOS signing identity (default: macos.signingIdentity, or "-" for ad hoc)
+  -skip-build-command
+    	do not run buildCommand
+  -skip-dmg
+    	do not create a disk image for macOS
+  -skip-notarize
+    	do not notarize even when macos.notarize is set
+  -upload
+    	upload the installers and updates to the GitHub release of this version (updates.github), as a draft, or to the bucket of updates.s3

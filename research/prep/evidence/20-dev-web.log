@@ -1,0 +1,11 @@
+=== 2026-10-27T12:05:21Z dev -web start ===
+
+  MyGo!!!!! v0.7.1  dev
+
+  ○ Building probe-native for browsers
+  ✓ Built probe-native for browsers (11.4 MB)  778ms
+
+  ➜ Serving at http://localhost:5174/
+  ➜ Watching for changes
+
+exit=0

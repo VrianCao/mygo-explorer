@@ -1,0 +1,27 @@
+=== 2026-10-27T12:02:24Z pristine probe-native: launch ===
+--- process alive? ---
+  PID ELAPSED COMM
+51933   00:01 ~/Code_New/MyGoExplorer/prep/probe-native/build/darwin-arm64/probe-native.app/Contents/MacOS/probe-native
+screencapture exit=0
+app exit=0
+bash: line 32: 51934 Terminated: 15          ( sleep 25; kill -9 $PID 2> /dev/null )
+--- leftover processes ---
+none
+--- app log (frame stats) ---
+2026/10/27 20:02:25 mygo: frame 1 took 344.6 ms: build 0.1, layout 1.3, paint 1.0, present 342.0 (drawn on the GPU: 33 instances in 5 batches (1 opaque; by class general 1, plain 1, fill 1, shadow 0, glyph 2, subpixel 0, image 0), 0 ops culled, 1 opaque cores, 5 batches awaiting specialized pipelines), other 0.1; meanwhile the process made about 3212 allocations, 197.7 KB, 13 text layouts; no GC
+2026/10/27 20:02:25 mygo: frame 2 took 0.1 ms: build 0.0, layout 0.0, paint 0.0, present 0.0 (drawn on the GPU: unchanged, 5 batches awaiting specialized pipelines), other 0.0; meanwhile the process made about 0 allocations, 0.0 KB, 0 text layouts; no GC
+
+=== CapturePage probe: launch ===
+capture app exit=0
+bash: line 32: 52008 Terminated: 15          ( sleep 25; kill -9 $PID2 2> /dev/null )
+--- leftover processes ---
+none
+--- capture app log ---
+2026/10/27 20:02:28 mygo: frame 1 took 340.1 ms: build 0.1, layout 1.3, paint 1.1, present 337.4 (drawn on the GPU: 33 instances in 5 batches (1 opaque; by class general 1, plain 1, fill 1, shadow 0, glyph 2, subpixel 0, image 0), 0 ops culled, 1 opaque cores, 5 batches awaiting specialized pipelines), other 0.1; meanwhile the process made about 2264 allocations, 158.9 KB, 13 text layouts; no GC
+2026/10/27 20:02:28 mygo: frame 2 took 0.1 ms: build 0.0, layout 0.0, paint 0.0, present 0.0 (drawn on the GPU: unchanged, 5 batches awaiting specialized pipelines), other 0.0; meanwhile the process made about 0 allocations, 0.0 KB, 0 text layouts; no GC
+2026/10/27 20:02:30 CAPTURE_OK: 25050 bytes -> ~/Code_New/MyGoExplorer/research/prep/evidence/probe-capturepage.png
+--- outputs ---
+-rw-r--r--@ 1 user  staff    25050 Oct 27 20:02 ~/Code_New/MyGoExplorer/research/prep/evidence/probe-capturepage.png
+-rw-r--r--@ 1 user  staff  7059312 Oct 27 20:02 ~/Code_New/MyGoExplorer/research/prep/evidence/probe-window-screencapture.png
+~/Code_New/MyGoExplorer/research/prep/evidence/probe-capturepage.png:          PNG image data, 960 x 656, 8-bit/color RGB, non-interlaced
+~/Code_New/MyGoExplorer/research/prep/evidence/probe-window-screencapture.png: PNG image data, 3024 x 1964, 8-bit/color RGBA, non-interlaced

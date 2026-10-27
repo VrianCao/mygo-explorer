@@ -1,0 +1,74 @@
+$ time go tool mygo build -platform darwin/arm64,linux/amd64,windows/amd64 -skip-dmg
+
+  MyGo!!!!! v0.7.1  build
+
+  ○ Compiling darwin/arm64
+  ✓ Compiled darwin/arm64  197ms
+  ○ Signing probe-native.app
+  ✓ Signed probe-native.app  25ms
+  ○ Compiling linux/amd64
+  ✓ Compiled linux/amd64  3.4s
+  • Copied 1 resources next to the executable
+  ○ Compiling windows/amd64
+  ✓ Compiled windows/amd64  3.7s
+  ▲ Skipping the Windows installer: install NSIS (makensis)
+  • Copied 1 resources next to the executable
+
+  ✓ Built probe-native 0.1.0 in 8.9s
+
+    build/darwin-arm64/
+      probe-native.app                          9.1 MB
+
+    build/linux-amd64/
+      probe-native                              9.0 MB
+      probe-native.png                           86 KB
+      probe-native.desktop                        1 KB
+      probe-native_0.1.0_amd64.deb              4.0 MB
+      probe-native-0.1.0-linux-amd64.tar.gz     4.0 MB
+      install.sh                                  7 KB
+
+    build/windows-amd64/
+      probe-native.exe                          9.4 MB
+
+
+real	0m9.048s
+user	0m44.328s
+sys	0m10.403s
+exit=0
+--- artifact tree ---
+build/darwin-arm64/probe-native.app/Contents/_CodeSignature/CodeResources
+build/darwin-arm64/probe-native.app/Contents/Info.plist
+build/darwin-arm64/probe-native.app/Contents/MacOS/probe-native
+build/darwin-arm64/probe-native.app/Contents/PkgInfo
+build/darwin-arm64/probe-native.app/Contents/Resources/AppIcon.icns
+build/darwin-arm64/probe-native.app/Contents/Resources/icon.png
+build/linux-amd64/icon.png
+build/linux-amd64/install.sh
+build/linux-amd64/probe-native
+build/linux-amd64/probe-native_0.1.0_amd64.deb
+build/linux-amd64/probe-native-0.1.0-linux-amd64.tar.gz
+build/linux-amd64/probe-native.desktop
+build/linux-amd64/probe-native.png
+build/windows-amd64/icon.png
+build/windows-amd64/probe-native.exe
+--- sizes ---
+4.0K	build/linux-amd64/probe-native.desktop
+8.0K	build/linux-amd64/install.sh
+ 88K	build/darwin-arm64/probe-native.app/Contents/Resources/icon.png
+ 88K	build/linux-amd64/icon.png
+ 88K	build/linux-amd64/probe-native.png
+ 88K	build/windows-amd64/icon.png
+188K	build/darwin-arm64/probe-native.app/Contents/Resources/AppIcon.icns
+276K	build/darwin-arm64/probe-native.app/Contents/Resources
+4.0M	build/linux-amd64/probe-native_0.1.0_amd64.deb
+4.0M	build/linux-amd64/probe-native-0.1.0-linux-amd64.tar.gz
+8.8M	build/darwin-arm64/probe-native.app/Contents/MacOS
+8.8M	build/darwin-arm64/probe-native.app/Contents/MacOS/probe-native
+9.1M	build/darwin-arm64
+9.1M	build/darwin-arm64/probe-native.app
+9.1M	build/darwin-arm64/probe-native.app/Contents
+9.1M	build/linux-amd64/probe-native
+9.4M	build/windows-amd64/probe-native.exe
+9.5M	build/windows-amd64
+ 17M	build/linux-amd64
+ 36M	build

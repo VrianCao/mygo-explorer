@@ -1,0 +1,16 @@
+=== toolchain in module ===
+~/go/pkg/mod/golang.org/toolchain@v0.0.1-go1.27.3.darwin-arm64
+go1.27.3
+auto
+
+=== toolchain in ~/go/pkg/mod ===
+~/go/pkg/mod/golang.org/toolchain@v0.0.1-go1.27.0.darwin-arm64
+~/go/pkg/mod/golang.org/toolchain@v0.0.1-go1.27.3.darwin-arm64
+
+=== appearance ===
+Dark
+
+=== Tester theme API ===
+ui/headless.go:378:func (t *Tester) SetScale(scale float32) {
+ui/headless.go:406:func (t *Tester) SetDark(dark bool) {
+ui/headless.go:414:func (t *Tester) SetPreferences(p Preferences) {

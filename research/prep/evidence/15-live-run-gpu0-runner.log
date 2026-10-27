@@ -1,0 +1,7 @@
+=== 2026-10-27T12:03:16Z run probe-native with MYGO_GPU=0 (CPU renderer) ===
+app exit=0
+bash: line 13: 52555 Terminated: 15          ( sleep 20; kill -9 $PID 2> /dev/null )
+leftover: none
+--- log ---
+2026/10/27 20:03:16 mygo: frame 1 took 3.6 ms: build 0.1, layout 1.6, paint 1.2, present 0.6 (drawn in memory), other 0.1; meanwhile the process made about 1913 allocations, 142.7 KB, 13 text layouts; no GC
+2026/10/27 20:03:16 mygo: frame 2 took 0.1 ms: build 0.0, layout 0.0, paint 0.0, present 0.1 (drawn in memory), other 0.0; meanwhile the process made about 0 allocations, 0.0 KB, 0 text layouts; no GC
