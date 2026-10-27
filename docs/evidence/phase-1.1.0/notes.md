@@ -93,7 +93,11 @@
   全部历史：邮箱替换为 `[redacted]`、家目录路径归一化为 `~/`，force-push `main`，并重建/重签
   `v0.1.0` tag。已核验新历史每个 commit 都不再含该邮箱或 `/Users/<user>`；逐行比对确认改动仅涉及
   17 个文件的 64 行，全部属于上述两类字符串。残留风险：GitHub 可能短期缓存不可达对象（必要时
-  可联系 GitHub Support 清理），搜索引擎缓存可能滞后；重写前的 SHA 不可达，旧 CI run 仅作历史记录。
+  可联系 GitHub Support 清理），搜索引擎缓存可能滞后；重写前的 SHA 在**当前分支历史中不可达**，
+  旧 CI run 仅作历史记录。**补充实测（2026-10-28）**：force-push 后 GitHub 仍会按旧 SHA 提供
+  旧 commit/blob 的匿名读取（不可达对象有保留期，具体旧 SHA 不在此记录以免提供指向）；因此
+  “公开历史已干净”成立，但“GitHub 侧彻底不可读”需 Support 清理或删除并重建仓库才能做到——
+  该步待用户决定（见 GATES.md）。
 - Windows/Linux 无本地真机运行（仅 CI 构建 + 交叉编译）；真实平台截图在 Phase 1.8.0。
 - 产物未签名/未公证（无 Developer ID），dmg 仅供本地与测试；分发策略见 DECISIONS D13。
 - `main.go` 仍是 `mygo init` 模板骨架（窗口 480×360），Phase 1.2.0 起替换为真实外壳。

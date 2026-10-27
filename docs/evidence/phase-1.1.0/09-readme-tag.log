@@ -71,3 +71,10 @@ email in history (git log -S): 0
 /Users/<user> in history (git log -S): 0
 email in HEAD tree: 0
 ENVIRONMENT.md line 29: | Signing identities | 1 codesigning identity: "Apple Development: [redacted]" — **no Developer ID Application** | `security find-identity -v -p codesigning` (see §12) |
+
+# ---
+# 2026-10-28 GitHub 侧不可达对象保留（如实记录，匿名 curl 验证）
+# force-push 后：main 与 tag 历史已无个人邮箱/家目录路径（见上）；但按旧 commit SHA 通过
+# raw.githubusercontent.com/<owner>/<repo>/<old-sha>/... 仍返回 HTTP 200 且含旧内容。
+# GitHub 对不可达 commit/blob 有保留期；彻底不可读需 GitHub Support 清理或删除并重建仓库。
+# 为免提供指向，具体旧 SHA 不写入本仓库。
