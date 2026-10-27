@@ -84,3 +84,16 @@ ENVIRONMENT.md line 29: | Signing identities | 1 codesigning identity: "Apple De
 # 新仓库仅推入已清洗历史；tag v0.1.0 为同一 annotated+SSH 签名对象（d2fd15d → 8f8ad51）。
 # 重建后匿名验证：旧 commit API 422、旧 SHA raw 404、旧 Actions run URL 404；
 # 新仓库 run <https://github.com/VrianCao/mygo-explorer/actions/runs/40552337649> 三平台全绿。
+
+# ---
+# 2026-10-28 最终重建仓库后的 tag/仓库记录
+$ git ls-remote origin
+1d457b4589c9d90ba810852cc07b190707694c3c	HEAD
+1d457b4589c9d90ba810852cc07b190707694c3c	refs/heads/main
+8e5bb0590023a3c99e004cd2291a5d42108e63ee	refs/tags/v0.1.0
+8707ea17c86460e8cbc39ca7b7a67c955d1f382b	refs/tags/v0.1.0^{}
+$ git rev-parse v0.1.0 -> commit
+8e5bb0590023a3c99e004cd2291a5d42108e63ee -> 8707ea17c86460e8cbc39ca7b7a67c955d1f382b
+signature blocks: 1
+commits: 22
+tracked files >1 MB: 1

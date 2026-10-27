@@ -12,7 +12,7 @@
 4. 应用标识：`MyGo Explorer` / `dev.mygoexplorer.app` / `0.1.0`；本机打包 `.app` + dmg 成功，Info.plist 正确。
 5. 仓库卫生：MIT `LICENSE`、第三方 `NOTICE`、`.gitignore`（reference/build/密钥/临时文件均命中）。
 6. 公开仓库：<https://github.com/VrianCao/mygo-explorer>（PUBLIC，匿名 HTTP 200，topics/description 已设）。
-7. CI 骨架：三平台矩阵全绿（重建仓库后 run 40552337649：macOS 1m43s / Linux 1m01s / Windows 2m15s）；
+7. CI 骨架：三平台矩阵全绿（最终重建仓库后 run 40554262094：macOS 2m06s / Linux 0m24s / Windows 2m07s）；
    artifact 内含 `ci/go-version.txt`（go1.27.3）等工具链日志。更早三次 run 属于原仓库，随 2026-10-28
    删除重建而失效（URL 404），历史记录保留在 `07-ci.log`。
 8. 本地门禁：`app/scripts/check.sh` 5 项 PASS；故意改坏测试时 exit 1，还原后 exit 0。
@@ -32,7 +32,7 @@
 | `04-build.log` | `go tool mygo build` 5.9s、产物、Info.plist、codesign adhoc |
 | `05-hygiene.log` | `git check-ignore -v` 8/8 命中；无密钥/build 被跟踪 |
 | `06-repo.log` | `gh repo create`、visibility=PUBLIC、匿名 HTTP 200、匿名 API |
-| `07-ci.log` | CI run 记录：原仓库 run（40538853325 / 40540456159 / 40542634813，URL 随重建失效）+ 重建后 run 40552337649（全绿，artifact 含工具链日志） |
+| `07-ci.log` | CI run 记录：历史 run（原仓库，URL 随重建失效）+ 最终重建后 run 40554262094（全绿，artifact 含工具链日志） |
 | `08-check.log` | `check.sh` 三次运行（PASS → 故意失败 exit 1 → 还原 PASS） |
 | `09-readme-tag.log` | README 链接检查（11 本地/3 外链 200）+ annotated/SSH 签名 tag `v0.1.0` 的本地与远端记录 |
 | `10-smoke.log` | `go tool mygo dev` 冒烟：窗口标题/几何（稳定后 480×360）、截图、SIGINT、无残留进程 |
@@ -78,7 +78,7 @@
      再截图（480×360 pt / 960×720 px），并先重置 dev 窗口状态以保证可复现；重跑后 PASS。
    - CI 原先只上传构建产物 → 增加 `Write toolchain and module logs` 步骤，把
      `go version` / `go env` / `go list -m all` / `mygo version` 写入 `build/ci/` 并随 artifact 上传
-     （重建后 run 40552337649 已核验：`ci/go-version.txt` 在 macOS/linux/windows 三份 artifact 中均存在）。
+     （最终重建后 run 40554262094 已核验：`ci/go-version.txt` 在 macOS/linux/windows 三份 artifact 中均存在）。
    - `test.txt` / `vet.txt` 过薄 → 改为 `go test -count=1 -v`（含 TestView PASS）与
      `go tool mygo vet .` + `go vet ./...` 的实际输出。
 8. **tag 时点（B7，决定保留）**：`v0.1.0` 指向 1.1.9 的 README commit `8f8ad51`（重写后 SHA），
@@ -113,8 +113,8 @@
     - 第 3 轮（无必要内容不 track）：`--index-filter` 把三张 >6 MB 的全屏截图从历史与跟踪中移除
       （含桌面内容且有体积负担），只保留窗口裁剪图与 `docs/evidence/.../smoke.png`（56 KB）。
     - 因 GitHub 对 force-push 后的不可达对象有保留期（实测旧 SHA 的 raw 仍可匿名读取），最终按用户
-      选择 **删除并同名重建公开仓库**，仅推入已清洗历史（21 commits、`.git` 约 1.1 MB）与重签 tag；
-      新仓库重跑 CI 全绿（见文末/`07-ci.log`）。重建后匿名验证：旧 commit API 422、旧 SHA raw 404、
+      选择 **删除并同名重建公开仓库**（最终一次 2026-10-28），仅推入已清洗历史（20 余 commits、
+      `.git` 约 1 MB 级）与重签 tag；新仓库重跑 CI 全绿（run 40554262094，见 `07-ci.log`）。重建后匿名验证：旧 commit API 422、旧 SHA raw 404、
       旧 Actions run URL 404。旧 SHA/旧 run 引用已更新或标注为历史记录；具体旧 SHA 不写入仓库。
 
 ## 6. GATE-1 用户复核步骤（约 5 分钟）
